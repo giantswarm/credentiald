@@ -8,11 +8,3 @@ data:
     server:
       listen:
         address: 'http://0.0.0.0:8000'
-    service:
-      kubernetes:
-        address: ''
-        inCluster: true
-        tls:
-          caFile: ''
-          crtFile: ''
-          keyFile: ''

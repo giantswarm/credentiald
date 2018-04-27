@@ -48,9 +48,9 @@ spec:
           mountPath: /var/run/credentiald/configmap/
         livenessProbe:
           httpGet:
-            path: /healthz
+            path: /
             port: 8000
-          initialDelaySeconds: 30
+          initialDelaySeconds: 5
           timeoutSeconds: 1
         resources:
           requests:
