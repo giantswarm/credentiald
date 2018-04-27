@@ -19,6 +19,12 @@ spec:
     ports:
     - protocol: TCP
       port: 8000
-  # Allow all egress traffic.
+  # Allow only https and dns traffic.
   egress:
-  - {}
+  - ports:
+    - port: 443
+      protocol: TCP
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
