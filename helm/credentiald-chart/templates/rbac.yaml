@@ -1,0 +1,61 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: credentiald
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - delete
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    resourceNames:
+      - credentiald-configmap
+    verbs:
+      - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: credentiald
+subjects:
+  - kind: ServiceAccount
+    name: credentiald
+    namespace: giantswarm
+roleRef:
+  kind: ClusterRole
+  name: credentiald
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: credentiald-psp
+rules:
+  - apiGroups:
+      - extensions
+    resources:
+      - podsecuritypolicies
+    verbs:
+      - use
+    resourceNames:
+      - credentiald-psp
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: credentiald-psp
+subjects:
+  - kind: ServiceAccount
+    name: credentiald
+    namespace: giantswarm
+roleRef:
+  kind: ClusterRole
+  name: credentiald-psp
+  apiGroup: rbac.authorization.k8s.io

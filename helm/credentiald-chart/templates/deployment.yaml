@@ -1,0 +1,63 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: credentiald
+  namespace: giantswarm
+  labels:
+    app: credentiald
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: credentiald
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - credentiald
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      volumes:
+      - name: credentiald-configmap
+        configMap:
+          name: credentiald-configmap
+          items:
+          - key: config.yml
+            path: config.yml
+      serviceAccountName: credentiald
+      containers:
+      - name: credentiald
+        image: quay.io/giantswarm/credentiald:[[ .SHA ]]
+        args:
+        - daemon
+        - --config.dirs=/var/run/credentiald/configmap/
+        - --config.files=config
+        volumeMounts:
+        - name: credentiald-configmap
+          mountPath: /var/run/credentiald/configmap/
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+          limits:
+            cpu: 50m
+            memory: 50Mi
+      imagePullSecrets:
+      - name: credentiald-pull-secret
