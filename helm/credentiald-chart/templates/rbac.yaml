@@ -1,7 +1,9 @@
+# Allow create secrets in giantswarm namespace.
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
   name: credentiald
+  namespace: giantswarm
 rules:
   - apiGroups:
       - ""
@@ -11,22 +13,24 @@ rules:
       - create
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: credentiald
+  namespace: giantswarm
 subjects:
   - kind: ServiceAccount
     name: credentiald
     namespace: giantswarm
 roleRef:
-  kind: ClusterRole
+  kind: Role
   name: credentiald
   apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
   name: credentiald-psp
+  namespace: giantswarm
 rules:
   - apiGroups:
       - extensions
@@ -38,14 +42,15 @@ rules:
       - credentiald-psp
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: credentiald-psp
+  namespace: giantswarm
 subjects:
   - kind: ServiceAccount
     name: credentiald
     namespace: giantswarm
 roleRef:
-  kind: ClusterRole
+  kind: Role
   name: credentiald-psp
   apiGroup: rbac.authorization.k8s.io

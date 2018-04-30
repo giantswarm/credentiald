@@ -7,8 +7,6 @@ metadata:
     app: credentiald
 spec:
   replicas: 2
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -46,6 +44,12 @@ spec:
         volumeMounts:
         - name: credentiald-configmap
           mountPath: /var/run/credentiald/configmap/
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
         livenessProbe:
           httpGet:
             path: /
