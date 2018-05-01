@@ -5,6 +5,7 @@ import (
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 
+	"github.com/giantswarm/credentiald/server/endpoint/creator"
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service"
 )
@@ -16,6 +17,7 @@ type Config struct {
 }
 
 type Endpoint struct {
+	Creator *creator.Endpoint
 	Version *version.Endpoint
 }
 
@@ -30,18 +32,34 @@ func New(config Config) (*Endpoint, error) {
 		return nil, microerror.Maskf(invalidConfigError, "%T.Service must not be empty", config)
 	}
 
+	var creatorEndpoint *creator.Endpoint
+	{
+		c := creator.Config{
+			Logger:  config.Logger,
+			Service: config.Service.Creator,
+		}
+
+		creatorEndpoint, err = creator.New(c)
+		if err != nil {
+			return nil, microerror.Mask(err)
+		}
+	}
+
 	var versionEndpoint *version.Endpoint
 	{
-		versionConfig := version.DefaultConfig()
-		versionConfig.Logger = config.Logger
-		versionConfig.Service = config.Service.Version
-		versionEndpoint, err = version.New(versionConfig)
+		c := version.Config{
+			Logger:  config.Logger,
+			Service: config.Service.Version,
+		}
+
+		versionEndpoint, err = version.New(c)
 		if err != nil {
 			return nil, microerror.Mask(err)
 		}
 	}
 
 	endpoint := &Endpoint{
+		Creator: creatorEndpoint,
 		Version: versionEndpoint,
 	}
 

@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 
 	"github.com/spf13/viper"
 
@@ -22,6 +24,10 @@ var (
 	name        = "credentiald"
 	source      = "https://github.com/giantswarm/credentiald"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 func main() {
 	err := mainWithError()
@@ -97,6 +103,18 @@ func mainWithError() (err error) {
 			return microerror.Maskf(err, "command.New")
 		}
 	}
+
+	daemonCommand := newCommand.DaemonCommand().CobraCommand()
+
+	daemonCommand.PersistentFlags().String(f.Service.Kubernetes.Address, "", "Address used to connect to Kubernetes.")
+	daemonCommand.PersistentFlags().Bool(f.Service.Kubernetes.InCluster, true, "Whether to use the in-cluster config to authenticate with Kubernetes.")
+	daemonCommand.PersistentFlags().String(f.Service.Kubernetes.TLS.CAFile, "", "Certificate authority file path to use to authenticate with Kubernetes.")
+	daemonCommand.PersistentFlags().String(f.Service.Kubernetes.TLS.CrtFile, "", "Certificate file path to use to authenticate with Kubernetes.")
+	daemonCommand.PersistentFlags().String(f.Service.Kubernetes.TLS.KeyFile, "", "Key file path to use to authenticate with Kubernetes.")
+
+	daemonCommand.PersistentFlags().String(f.Service.Secrets.Namespace, "giantswarm", "Namespace to store secrets in.")
+	daemonCommand.PersistentFlags().String(f.Service.Secrets.NameFormat, "credential-%s", "Format to name secrets with.")
+	daemonCommand.PersistentFlags().Int(f.Service.Secrets.IDLength, 6, "Length of credential IDs.")
 
 	newCommand.CobraCommand().Execute()
 
