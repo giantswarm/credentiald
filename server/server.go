@@ -5,11 +5,10 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/spf13/viper"
-
 	"github.com/giantswarm/microerror"
 	microserver "github.com/giantswarm/microkit/server"
 	"github.com/giantswarm/micrologger"
+	"github.com/spf13/viper"
 
 	"github.com/giantswarm/credentiald/server/endpoint"
 	"github.com/giantswarm/credentiald/server/middleware"
@@ -83,8 +82,8 @@ func New(config Config) (*Server, error) {
 			Logger:      config.Logger,
 			ServiceName: config.ProjectName,
 			Viper:       config.Viper,
-
 			Endpoints: []microserver.Endpoint{
+				endpointCollection.Creator,
 				endpointCollection.Version,
 			},
 			ErrorEncoder: errorEncoder,

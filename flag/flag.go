@@ -2,9 +2,13 @@ package flag
 
 import (
 	"github.com/giantswarm/microkit/flag"
+
+	"github.com/giantswarm/credentiald/flag/service"
 )
 
-type Flag struct{}
+type Flag struct {
+	Service service.Service
+}
 
 func New() *Flag {
 	f := &Flag{}
