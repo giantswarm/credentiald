@@ -7,11 +7,13 @@ import (
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 	"github.com/giantswarm/operatorkit/client/k8srestconfig"
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/spf13/viper"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
 	"github.com/giantswarm/credentiald/flag"
+	"github.com/giantswarm/credentiald/service/collector"
 	"github.com/giantswarm/credentiald/service/creator"
 )
 
@@ -74,6 +76,21 @@ func New(config Config) (*Service, error) {
 	k8sClient, err := kubernetes.NewForConfig(restConfig)
 	if err != nil {
 		return nil, microerror.Mask(err)
+	}
+
+	{
+		var credentialdCollector *collector.Collector
+
+		c := collector.Config{
+			K8sClient: k8sClient,
+			Logger:    config.Logger,
+		}
+		credentialdCollector, err = collector.New(c)
+		if err != nil {
+			return nil, microerror.Mask(err)
+		}
+
+		prometheus.MustRegister(credentialdCollector)
 	}
 
 	var creatorService *creator.Service
