@@ -100,7 +100,7 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 
 		creatorResponse, err := e.service.Create(ctx, creatorRequest)
 		if creator.IsAlreadyExists(err) {
-			return nil, microerror.Maskf(aleradyExistsError, err.Error())
+			return nil, microerror.Maskf(alreadyExistsError, err.Error())
 		} else if err != nil {
 			return nil, microerror.Mask(err)
 		}

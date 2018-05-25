@@ -4,11 +4,11 @@ import (
 	"github.com/giantswarm/microerror"
 )
 
-var aleradyExistsError = microerror.New("alerady exists")
+var alreadyExistsError = microerror.New("already exists")
 
-// IsAleradyExists asserts aleradyExistsError.
-func IsAleradyExists(err error) bool {
-	return microerror.Cause(err) == aleradyExistsError
+// IsAlreadyExists asserts alreadyExistsError.
+func IsAlreadyExists(err error) bool {
+	return microerror.Cause(err) == alreadyExistsError
 }
 
 var invalidConfigError = microerror.New("invalid config")
