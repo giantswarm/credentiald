@@ -72,7 +72,6 @@ func (e *Endpoint) Encoder() kithttp.EncodeResponseFunc {
 	return func(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 		endpointResponse := response.(Response)
 
-		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set(
 			"Location",
 			fmt.Sprintf("/v4/organizations/%s/credentials/%s/",
@@ -80,6 +79,7 @@ func (e *Endpoint) Encoder() kithttp.EncodeResponseFunc {
 				endpointResponse.CredentialID,
 			),
 		)
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 
 		return json.NewEncoder(w).Encode(endpointResponse)

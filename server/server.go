@@ -11,9 +11,9 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/giantswarm/credentiald/server/endpoint"
+	"github.com/giantswarm/credentiald/server/endpoint/creator"
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service"
-	"github.com/giantswarm/credentiald/service/creator"
 )
 
 type Config struct {
