@@ -13,6 +13,7 @@ import (
 	"github.com/giantswarm/credentiald/server/endpoint"
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service"
+	"github.com/giantswarm/credentiald/service/creator"
 )
 
 type Config struct {
@@ -110,7 +111,13 @@ func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 	rErr := err.(microserver.ResponseError)
 	uErr := rErr.Underlying()
 
-	rErr.SetCode(microserver.CodeInternalError)
-	rErr.SetMessage(uErr.Error())
-	w.WriteHeader(http.StatusInternalServerError)
+	if creator.IsAlreadyExists(uErr) {
+		rErr.SetCode(microserver.CodeResourceAlreadyExists)
+		rErr.SetMessage(uErr.Error())
+		w.WriteHeader(http.StatusConflict)
+	} else {
+		rErr.SetCode(microserver.CodeInternalError)
+		rErr.SetMessage(uErr.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 }

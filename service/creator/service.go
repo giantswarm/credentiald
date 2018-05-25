@@ -6,11 +6,12 @@ import (
 	"math/rand"
 	"regexp"
 	"strconv"
+	"strings"
 
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/microkit/server"
 	"github.com/giantswarm/micrologger"
-	"k8s.io/api/core/v1"
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
@@ -85,13 +86,23 @@ func New(config Config) (*Service, error) {
 }
 
 func (s *Service) Create(ctx context.Context, request Request) (Response, error) {
-	s.logger.Log("level", "debug", "message", fmt.Sprintf("received service request: %#v", request))
+	s.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("received service request: %#v", request))
+
+	// We allow only single credential secret per organization.
+	existing, err := s.existing(request.Organization)
+	if err != nil {
+		return Response{}, microerror.Mask(err)
+	}
+	if len(existing) > 0 {
+		return Response{}, microerror.Maskf(alreadyExistsError, "found %d credential secrets for organization %q", len(existing), request.Organization)
+	}
 
 	credentialID := s.generateCredentialID()
 
-	secret := &v1.Secret{
+	secret := &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Name: fmt.Sprintf(s.nameFormat, credentialID),
+			Name:      fmt.Sprintf(s.nameFormat, credentialID),
+			Namespace: s.secretsNamespace,
 			Labels: map[string]string{
 				AppLabel:          AppValue,
 				ManagedByLabel:    ManagedByValue,
@@ -105,9 +116,24 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 		},
 	}
 
-	_, err := s.k8sClient.CoreV1().Secrets(s.secretsNamespace).Create(secret)
+	_, err = s.k8sClient.CoreV1().Secrets(secret.Namespace).Create(secret)
 	if err != nil {
 		return Response{}, microerror.Mask(err)
+	}
+
+	// Check if another secret wasn't created in the meantime. If so delete
+	// our. In worst case scenario there won't be any and the request will
+	// have to be replayed.
+	existing, err = s.existing(request.Organization)
+	if err != nil {
+		return Response{}, microerror.Mask(err)
+	}
+	if len(existing) > 1 {
+		err := s.k8sClient.CoreV1().Secrets(secret.Namespace).Delete(secret.Name, &metav1.DeleteOptions{})
+		if err != nil {
+			return Response{}, microerror.Mask(err)
+		}
+		return Response{}, microerror.Maskf(alreadyExistsError, "detected race when creating credential secret for organization %q", request.Organization)
 	}
 
 	response := Response{
@@ -119,6 +145,29 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 	}
 
 	return response, nil
+}
+
+func (s *Service) existing(organization string) ([]*corev1.Secret, error) {
+	selectors := []string{
+		ManagedByLabel + "=" + ManagedByValue,
+		OrganizationLabel + "=" + organization,
+	}
+
+	resp, err := s.k8sClient.CoreV1().Secrets(s.secretsNamespace).List(metav1.ListOptions{
+		LabelSelector: strings.Join(selectors, ","),
+	})
+
+	if err != nil {
+		return nil, microerror.Mask(err)
+	}
+
+	// Convert to pointers avoid future type confustions.
+	secrets := make([]*corev1.Secret, len(resp.Items))
+	for i, s := range resp.Items {
+		secrets[i] = &s
+	}
+
+	return secrets, nil
 }
 
 // generateCredentialID provides an ID suitable for credentials.
