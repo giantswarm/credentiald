@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/giantswarm/microerror"
-	"github.com/giantswarm/microkit/server"
 	"github.com/giantswarm/micrologger"
 	kitendpoint "github.com/go-kit/kit/endpoint"
 	kithttp "github.com/go-kit/kit/transport/http"
@@ -73,20 +72,15 @@ func (e *Endpoint) Encoder() kithttp.EncodeResponseFunc {
 	return func(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 		endpointResponse := response.(Response)
 
-		switch endpointResponse.Code {
-		case server.CodeResourceAlreadyExists:
-			w.WriteHeader(http.StatusConflict)
-		default:
-			w.Header().Set("Content-Type", "application/json")
-			w.Header().Set(
-				"Location",
-				fmt.Sprintf("/v4/organizations/%s/credentials/%s/",
-					endpointResponse.Organization,
-					endpointResponse.CredentialID,
-				),
-			)
-			w.WriteHeader(http.StatusCreated)
-		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set(
+			"Location",
+			fmt.Sprintf("/v4/organizations/%s/credentials/%s/",
+				endpointResponse.Organization,
+				endpointResponse.CredentialID,
+			),
+		)
+		w.WriteHeader(http.StatusCreated)
 
 		return json.NewEncoder(w).Encode(endpointResponse)
 	}
