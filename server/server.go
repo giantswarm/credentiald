@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"sync"
 
@@ -120,4 +121,10 @@ func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 		rErr.SetMessage(uErr.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+
+	// This writes the error response body to the stream.
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"code":    rErr.Code(),
+		"message": rErr.Message(),
+	})
 }
