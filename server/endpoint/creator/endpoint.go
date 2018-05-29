@@ -99,7 +99,9 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 		}
 
 		creatorResponse, err := e.service.Create(ctx, creatorRequest)
-		if err != nil {
+		if creator.IsAlreadyExists(err) {
+			return nil, microerror.Maskf(alreadyExistsError, err.Error())
+		} else if err != nil {
 			return nil, microerror.Mask(err)
 		}
 		e.logger.Log("level", "debug", "message", fmt.Sprintf("received service response: %#v", creatorResponse))

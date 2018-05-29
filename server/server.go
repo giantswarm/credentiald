@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"sync"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/spf13/viper"
 
 	"github.com/giantswarm/credentiald/server/endpoint"
+	"github.com/giantswarm/credentiald/server/endpoint/creator"
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service"
 )
@@ -110,7 +112,19 @@ func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 	rErr := err.(microserver.ResponseError)
 	uErr := rErr.Underlying()
 
-	rErr.SetCode(microserver.CodeInternalError)
-	rErr.SetMessage(uErr.Error())
-	w.WriteHeader(http.StatusInternalServerError)
+	if creator.IsAlreadyExists(uErr) {
+		rErr.SetCode(microserver.CodeResourceAlreadyExists)
+		rErr.SetMessage(uErr.Error())
+		w.WriteHeader(http.StatusConflict)
+	} else {
+		rErr.SetCode(microserver.CodeInternalError)
+		rErr.SetMessage(uErr.Error())
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	// This writes the error response body to the stream.
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"code":    rErr.Code(),
+		"message": rErr.Message(),
+	})
 }
