@@ -15,6 +15,7 @@ import (
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service/creator"
 	"github.com/giantswarm/credentiald/service/creator/aws"
+	"github.com/giantswarm/credentiald/service/creator/azure"
 )
 
 const (
@@ -94,10 +95,17 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 
 		creatorRequest := creator.Request{
 			Organization: endpointRequest.Organization,
+			Provider:     endpointRequest.Provider,
 
 			AWS: aws.Request{
 				AdminARN:       endpointRequest.AWS.Roles.Admin,
 				AwsOperatorARN: endpointRequest.AWS.Roles.AwsOperator,
+			},
+			Azure: azure.Request{
+				ClientID:       endpointRequest.Azure.Credential.ClientID,
+				SecretID:       endpointRequest.Azure.Credential.SecretID,
+				SubscriptionID: endpointRequest.Azure.Credential.SubscriptionID,
+				TenantID:       endpointRequest.Azure.Credential.TenantID,
 			},
 		}
 
