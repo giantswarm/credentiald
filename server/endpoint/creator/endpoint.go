@@ -14,6 +14,7 @@ import (
 
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service/creator"
+	"github.com/giantswarm/credentiald/service/creator/aws"
 )
 
 const (
@@ -94,8 +95,10 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 		creatorRequest := creator.Request{
 			Organization: endpointRequest.Organization,
 
-			AdminARN:       endpointRequest.AWS.Roles.Admin,
-			AwsOperatorARN: endpointRequest.AWS.Roles.AwsOperator,
+			AWS: aws.Request{
+				AdminARN:       endpointRequest.AWS.Roles.Admin,
+				AwsOperatorARN: endpointRequest.AWS.Roles.AwsOperator,
+			},
 		}
 
 		creatorResponse, err := e.service.Create(ctx, creatorRequest)
