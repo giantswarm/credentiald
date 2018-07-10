@@ -14,6 +14,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
+
+	"github.com/giantswarm/credentiald/service/creator/aws"
 )
 
 const (
@@ -24,11 +26,6 @@ const (
 	OrganizationLabel = "giantswarm.io/organization"
 	ServiceTypeLabel  = "giantswarm.io/service-type"
 	ServiceTypeValue  = "system"
-
-	// AwsAdminArnKey is the key in the Secret under which the ARN for the admin role is held.
-	AwsAdminArnKey = "aws.admin.arn"
-	// AwsAwsoperatorArnKey is the key in the Secret under which the ARN for the aws-operator role is held.
-	AwsAwsoperatorArnKey = "aws.awsoperator.arn"
 
 	ResourceCreatedMessageFormat = "A new set of credentials has been created with ID '%s'"
 )
@@ -111,8 +108,8 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 			},
 		},
 		Data: map[string][]byte{
-			AwsAdminArnKey:       []byte(request.AdminARN),
-			AwsAwsoperatorArnKey: []byte(request.AwsOperatorARN),
+			aws.AdminArnKey:       []byte(request.AWS.AdminARN),
+			aws.AwsoperatorArnKey: []byte(request.AWS.AwsOperatorARN),
 		},
 	}
 

@@ -1,17 +1,12 @@
 package creator
 
-type Roles struct {
-	Admin       string `json:"admin"`
-	AwsOperator string `json:"awsoperator"`
-}
-
-type AWS struct {
-	Roles Roles `json:"roles"`
-}
+import (
+	"github.com/giantswarm/credentiald/server/endpoint/creator/aws"
+)
 
 type Request struct {
-	Provider string `json:"provider"`
-	AWS      AWS    `json:"aws"`
+	Provider string  `json:"provider"`
+	AWS      aws.AWS `json:"aws"`
 
 	Organization string `json:"-"`
 }
