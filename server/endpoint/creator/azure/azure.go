@@ -1,10 +1,10 @@
 package azure
 
 type Credential struct {
-	ClientID       string `json:"clientID"`
-	SecretID       string `json:"secretID"`
-	SubscriptionID string `json:"subscriptionID"`
-	TenantID       string `json:"tenantID"`
+	ClientID       string `json:"client_id"`
+	SecretID       string `json:"secret_key"`
+	SubscriptionID string `json:"subscription_id"`
+	TenantID       string `json:"tenant_id"`
 }
 
 type Azure struct {
