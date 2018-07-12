@@ -16,6 +16,7 @@ import (
 	"k8s.io/client-go/kubernetes"
 
 	"github.com/giantswarm/credentiald/service/creator/aws"
+	"github.com/giantswarm/credentiald/service/creator/azure"
 )
 
 const (
@@ -107,10 +108,23 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 				ServiceTypeLabel:  ServiceTypeValue,
 			},
 		},
-		Data: map[string][]byte{
+	}
+
+	switch request.Provider {
+	case "aws":
+		secret.Data = map[string][]byte{
 			aws.AdminArnKey:       []byte(request.AWS.AdminARN),
 			aws.AwsoperatorArnKey: []byte(request.AWS.AwsOperatorARN),
-		},
+		}
+	case "azure":
+		secret.Data = map[string][]byte{
+			azure.ClientIDKey:       []byte(request.Azure.ClientID),
+			azure.ClientSecretKey:   []byte(request.Azure.SecretID),
+			azure.SubscriptionIDKey: []byte(request.Azure.SubscriptionID),
+			azure.TenantIDKey:       []byte(request.Azure.TenantID),
+		}
+	default:
+		return Response{}, microerror.Maskf(invalidProviderError, "%q provider is not supported", request.Provider)
 	}
 
 	_, err = s.k8sClient.CoreV1().Secrets(secret.Namespace).Create(secret)
