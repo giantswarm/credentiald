@@ -1,6 +1,6 @@
 package azure
 
-type Credential struct {
+type AzureCredential struct {
 	ClientID       string `json:"client_id"`
 	SecretID       string `json:"secret_key"`
 	SubscriptionID string `json:"subscription_id"`
@@ -8,5 +8,5 @@ type Credential struct {
 }
 
 type Azure struct {
-	Credential Credential `json:"credential"`
+	Credential AzureCredential `json:"credential"`
 }
