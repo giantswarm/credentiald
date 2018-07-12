@@ -124,7 +124,7 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 			azure.TenantIDKey:       []byte(request.Azure.TenantID),
 		}
 	default:
-		return Response{}, microerror.Maskf(invalidProviderError, "%q provider is not supported")
+		return Response{}, microerror.Maskf(invalidProviderError, "%q provider is not supported", request.Provider)
 	}
 
 	_, err = s.k8sClient.CoreV1().Secrets(secret.Namespace).Create(secret)
