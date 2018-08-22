@@ -21,7 +21,7 @@ import (
 const (
 	Method = "POST"
 	Name   = "creator"
-	Path   = "/v4/organizations/{organization}/credentials"
+	Path   = "/v4/organizations/{organization}/credentials/"
 )
 
 type Config struct {
