@@ -19,6 +19,13 @@ const (
 	kubernetesLabelSelectorMask = "app=credentiald,giantswarm.io/organization=%s"
 
 	gaugeValue = float64(1)
+
+	providerAWS   = "aws"
+	providerAzure = "azure"
+
+	// We use these data keys to detect the provider from a secret.
+	providerAWSDetectionKey   = "aws.admin.arn"
+	providerAzureDetectionKey = "azure.azureoperator.subscriptionid"
 )
 
 // Config is the service configuration data structure.
@@ -66,13 +73,35 @@ func (c *Service) List(request Request) ([]*Response, error) {
 	resp := []*Response{}
 
 	for _, credential := range credentialList.Items {
+		item := &Response{}
+
 		// get ID from name (ex: 'credential-15iv58')
-		parts := strings.Split(credential.Name, "-")
-		if len(parts) == 2 {
-			resp = append(resp, &Response{ID: parts[1]})
-		} else {
-			c.logger.Log("level", "error", "message", fmt.Sprintf("Invalid secret name found: %q", credential.Name))
+		{
+			parts := strings.Split(credential.Name, "-")
+			if len(parts) == 2 {
+				item.ID = parts[1]
+			} else {
+				c.logger.Log("level", "error", "message", fmt.Sprintf("Invalid secret name found: %q", credential.Name))
+			}
 		}
+
+		// get provider from content
+		if _, ok := credential.Data[providerAWSDetectionKey]; ok {
+			item.Provider = providerAWS
+		} else if _, ok := credential.Data[providerAzureDetectionKey]; ok {
+			item.Provider = providerAzure
+		}
+
+		// get payload
+		if item.Provider == providerAWS {
+			item.AWS.Roles.Admin = string(credential.Data["aws.admin.arn"])
+			item.AWS.Roles.AWSOperator = string(credential.Data["aws.awsoperator.arn"])
+		} else if item.Provider == providerAzure {
+			item.Azure.SubscriptionID = string(credential.Data["azure.azureoperator.subscriptionid"])
+			item.Azure.TenantID = string(credential.Data["azure.azureoperator.tenantid"])
+			item.Azure.ClientID = string(credential.Data["azure.azureoperator.clientid"])
+		}
+		resp = append(resp, item)
 	}
 
 	c.logger.Log("level", "debug", "message", "finished listing secrets")

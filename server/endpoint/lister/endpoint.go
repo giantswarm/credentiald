@@ -98,8 +98,27 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 		endpointResponse := []*Response{}
 
 		for _, credential := range listerResponse {
-			// TODO: include the actual metadata and role ARNs
-			endpointResponse = append(endpointResponse, &Response{ID: credential.ID})
+			responseItem := &Response{
+				ID:       credential.ID,
+				Provider: credential.Provider,
+			}
+
+			if credential.Provider == "aws" {
+				responseItem.AWS = &ResponseAWS{
+					&ResponseAWSRoles{
+						Admin:       credential.AWS.Roles.Admin,
+						AWSOperator: credential.AWS.Roles.AWSOperator,
+					},
+				}
+			} else if credential.Provider == "azure" {
+				responseItem.Azure = &ResponseAzure{
+					SubscriptionID: credential.Azure.SubscriptionID,
+					TenantID:       credential.Azure.TenantID,
+					ClientID:       credential.Azure.ClientID,
+				}
+			}
+
+			endpointResponse = append(endpointResponse, responseItem)
 		}
 
 		return endpointResponse, nil
