@@ -1,3 +1,4 @@
+// Package collector offers a service to retrieve metrics about credentials.
 package collector
 
 import (
@@ -46,6 +47,7 @@ type Collector struct {
 	logger    micrologger.Logger
 }
 
+// New creates a new Collector based on a configutation.
 func New(config Config) (*Collector, error) {
 	if config.K8sClient == nil {
 		return nil, microerror.Maskf(invalidConfigError, "%T.K8sClient must not be empty", config)
@@ -63,10 +65,12 @@ func New(config Config) (*Collector, error) {
 	return c, nil
 }
 
+// Describe collects metadata for a prometheus metric.
 func (c *Collector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- credentials
 }
 
+// Collect collects metrics for prometheus
 func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 	c.logger.Log("level", "debug", "message", "collecting metrics")
 

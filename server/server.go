@@ -108,6 +108,7 @@ func (s *Server) Shutdown() {
 	s.shutdownOnce.Do(func() {})
 }
 
+// Here we ensure that certain error types are handled specifically.
 func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 	rErr := err.(microserver.ResponseError)
 	uErr := rErr.Underlying()
