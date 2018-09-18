@@ -3,6 +3,7 @@ package lister
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
@@ -11,15 +12,11 @@ import (
 )
 
 const (
-	// the label we use to identify the owner organization of a secret
-	kubernetesOrganizationLabel = "giantswarm.io/organization"
-
 	// the namespace in which we store credentiald secrets
 	kubernetesCredentialNamespace = "giantswarm"
 
-	// the selector we can use to retrieve credentials
-	// TODO: add organization filter
-	kubernetesLabelSelector = "app=credentiald"
+	// the selector we use to retrieve credentials
+	kubernetesLabelSelectorMask = "app=credentiald,giantswarm.io/organization=%s"
 
 	gaugeValue = float64(1)
 )
@@ -58,9 +55,9 @@ func New(config Config) (*Service, error) {
 func (c *Service) List(request Request) ([]*Response, error) {
 	c.logger.Log("level", "debug", "message", fmt.Sprintf("listing secrets for organization %s", request.Organization))
 
-	// TODO: ensure filtering by org
+	selector := fmt.Sprintf(kubernetesLabelSelectorMask, request.Organization)
 	credentialList, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).List(metav1.ListOptions{
-		LabelSelector: kubernetesLabelSelector,
+		LabelSelector: selector,
 	})
 	if err != nil {
 		c.logger.Log("level", "error", "message", "could not list secrets", "stack", fmt.Sprintf("%#v", err))
@@ -69,7 +66,13 @@ func (c *Service) List(request Request) ([]*Response, error) {
 	resp := []*Response{}
 
 	for _, credential := range credentialList.Items {
-		resp = append(resp, &Response{ID: credential.Name})
+		// get ID from name (ex: 'credential-15iv58')
+		parts := strings.Split(credential.Name, "-")
+		if len(parts) == 2 {
+			resp = append(resp, &Response{ID: parts[1]})
+		} else {
+			c.logger.Log("level", "error", "message", fmt.Sprintf("Invalid secret name found: %q", credential.Name))
+		}
 	}
 
 	c.logger.Log("level", "debug", "message", "finished listing secrets")
