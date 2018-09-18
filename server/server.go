@@ -86,6 +86,7 @@ func New(config Config) (*Server, error) {
 			Viper:       config.Viper,
 			Endpoints: []microserver.Endpoint{
 				endpointCollection.Creator,
+				endpointCollection.Lister,
 				endpointCollection.Version,
 			},
 			ErrorEncoder: errorEncoder,
