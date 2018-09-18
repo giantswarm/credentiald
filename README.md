@@ -17,7 +17,7 @@ To run against a local Minikube:
 And to create a credential:
 ```
 curl -Ss -v \
-    http://localhost:8000/v4/organizations/foobar/credentials \
+    http://localhost:8000/v4/organizations/foobar/credentials/ \
     -d '{
             "provider": "aws",
             "aws": {
