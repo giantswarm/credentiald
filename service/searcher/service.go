@@ -92,13 +92,16 @@ func (c *Service) Search(request Request) (*Response, error) {
 	}
 
 	// get payload
-	if resp.Provider == providerAWS {
+	switch resp.Provider {
+	case providerAWS:
 		resp.AWS.Roles.Admin = string(credential.Data["aws.admin.arn"])
 		resp.AWS.Roles.AWSOperator = string(credential.Data["aws.awsoperator.arn"])
-	} else if resp.Provider == providerAzure {
+	case providerAzure:
 		resp.Azure.SubscriptionID = string(credential.Data["azure.azureoperator.subscriptionid"])
 		resp.Azure.TenantID = string(credential.Data["azure.azureoperator.tenantid"])
 		resp.Azure.ClientID = string(credential.Data["azure.azureoperator.clientid"])
+	default:
+		return nil, microerror.Mask(secretInUnexpectedFormatError)
 	}
 
 	c.logger.Log("level", "debug", "message", "finished listing secrets")
