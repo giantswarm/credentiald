@@ -30,3 +30,13 @@ var secretNotFoundError = &microerror.Error{
 func IsSecretNotFoundError(err error) bool {
 	return microerror.Cause(err) == secretNotFoundError
 }
+
+var secretInUnexpectedFormatError = &microerror.Error{
+	Kind: "secretInUnexpectedFormatError",
+	Desc: "the resource we retrieved does not have the expected format",
+}
+
+// IsSecretInUnexpectedFormatError asserts secretInUnexpectedFormatError.
+func IsSecretInUnexpectedFormatError(err error) bool {
+	return microerror.Cause(err) == secretInUnexpectedFormatError
+}

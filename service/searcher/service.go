@@ -87,6 +87,8 @@ func (c *Service) Search(request Request) (*Response, error) {
 		resp.Provider = providerAWS
 	} else if _, ok := credential.Data[providerAzureDetectionKey]; ok {
 		resp.Provider = providerAzure
+	} else {
+		return nil, microerror.Mask(secretInUnexpectedFormatError)
 	}
 
 	// get payload
