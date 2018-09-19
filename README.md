@@ -25,7 +25,7 @@ curl -Ss -i \
             "aws": {
                 "roles": {
                     "admin": "this-is-a-fake-admin-arn",
-                    "awsoperator": "this-is-a-fake-admin-arn"
+                    "awsoperator": "this-is-a-fake-awsoperator-arn"
                 }
             }
         }'
