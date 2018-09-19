@@ -3,7 +3,6 @@ package searcher
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
@@ -79,16 +78,8 @@ func (c *Service) Search(request Request) (*Response, error) {
 		return nil, microerror.Mask(wrongOwnerOrganizationError)
 	}
 
-	resp := &Response{}
-
-	// get ID from name (ex: 'credential-15iv58')
-	{
-		parts := strings.Split(credential.Name, "-")
-		if len(parts) == 2 {
-			resp.ID = parts[1]
-		} else {
-			c.logger.Log("level", "error", "message", fmt.Sprintf("Invalid secret name found: %q", credential.Name))
-		}
+	resp := &Response{
+		ID: request.ID,
 	}
 
 	// get provider from content
