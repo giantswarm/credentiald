@@ -74,6 +74,9 @@ func (c *Service) Search(request Request) (*Response, error) {
 		if ownerOrganization != request.Organization {
 			return nil, microerror.Mask(wrongOwnerOrganizationError)
 		}
+	} else {
+		// no organization set
+		return nil, microerror.Mask(wrongOwnerOrganizationError)
 	}
 
 	resp := &Response{}
