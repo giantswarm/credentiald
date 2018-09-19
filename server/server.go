@@ -86,6 +86,7 @@ func New(config Config) (*Server, error) {
 			Viper:       config.Viper,
 			Endpoints: []microserver.Endpoint{
 				endpointCollection.Creator,
+				endpointCollection.Lister,
 				endpointCollection.Version,
 			},
 			ErrorEncoder: errorEncoder,
@@ -108,6 +109,7 @@ func (s *Server) Shutdown() {
 	s.shutdownOnce.Do(func() {})
 }
 
+// errorEncoder ensures that certain error types are handled specifically.
 func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 	rErr := err.(microserver.ResponseError)
 	uErr := rErr.Underlying()

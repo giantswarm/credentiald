@@ -15,6 +15,7 @@ import (
 	"github.com/giantswarm/credentiald/flag"
 	"github.com/giantswarm/credentiald/service/collector"
 	"github.com/giantswarm/credentiald/service/creator"
+	"github.com/giantswarm/credentiald/service/lister"
 )
 
 type Config struct {
@@ -30,6 +31,7 @@ type Config struct {
 
 type Service struct {
 	Creator *creator.Service
+	Lister  *lister.Service
 	Version *version.Service
 
 	bootOnce sync.Once
@@ -110,6 +112,19 @@ func New(config Config) (*Service, error) {
 		}
 	}
 
+	var listerService *lister.Service
+	{
+		c := lister.Config{
+			K8sClient: k8sClient,
+			Logger:    config.Logger,
+		}
+
+		listerService, err = lister.New(c)
+		if err != nil {
+			return nil, microerror.Mask(err)
+		}
+	}
+
 	var versionService *version.Service
 	{
 		c := version.Config{
@@ -127,6 +142,7 @@ func New(config Config) (*Service, error) {
 
 	s := &Service{
 		Creator: creatorService,
+		Lister:  listerService,
 		Version: versionService,
 
 		bootOnce: sync.Once{},

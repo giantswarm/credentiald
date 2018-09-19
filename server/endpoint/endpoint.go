@@ -6,6 +6,7 @@ import (
 	"github.com/giantswarm/micrologger"
 
 	"github.com/giantswarm/credentiald/server/endpoint/creator"
+	"github.com/giantswarm/credentiald/server/endpoint/lister"
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service"
 )
@@ -18,6 +19,7 @@ type Config struct {
 
 type Endpoint struct {
 	Creator *creator.Endpoint
+	Lister  *lister.Endpoint
 	Version *version.Endpoint
 }
 
@@ -45,6 +47,19 @@ func New(config Config) (*Endpoint, error) {
 		}
 	}
 
+	var listerEndpoint *lister.Endpoint
+	{
+		c := lister.Config{
+			Logger:  config.Logger,
+			Service: config.Service.Lister,
+		}
+
+		listerEndpoint, err = lister.New(c)
+		if err != nil {
+			return nil, microerror.Mask(err)
+		}
+	}
+
 	var versionEndpoint *version.Endpoint
 	{
 		c := version.Config{
@@ -60,6 +75,7 @@ func New(config Config) (*Endpoint, error) {
 
 	endpoint := &Endpoint{
 		Creator: creatorEndpoint,
+		Lister:  listerEndpoint,
 		Version: versionEndpoint,
 	}
 
