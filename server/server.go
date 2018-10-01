@@ -13,6 +13,7 @@ import (
 
 	"github.com/giantswarm/credentiald/server/endpoint"
 	"github.com/giantswarm/credentiald/server/endpoint/creator"
+	"github.com/giantswarm/credentiald/server/endpoint/searcher"
 	"github.com/giantswarm/credentiald/server/middleware"
 	"github.com/giantswarm/credentiald/service"
 )
@@ -86,6 +87,8 @@ func New(config Config) (*Server, error) {
 			Viper:       config.Viper,
 			Endpoints: []microserver.Endpoint{
 				endpointCollection.Creator,
+				endpointCollection.Lister,
+				endpointCollection.Searcher,
 				endpointCollection.Version,
 			},
 			ErrorEncoder: errorEncoder,
@@ -108,6 +111,7 @@ func (s *Server) Shutdown() {
 	s.shutdownOnce.Do(func() {})
 }
 
+// errorEncoder ensures that certain error types are handled specifically.
 func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 	rErr := err.(microserver.ResponseError)
 	uErr := rErr.Underlying()
@@ -116,6 +120,10 @@ func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 		rErr.SetCode(microserver.CodeResourceAlreadyExists)
 		rErr.SetMessage(uErr.Error())
 		w.WriteHeader(http.StatusConflict)
+	} else if searcher.IsWrongOwnerOrganizationError(uErr) || searcher.IsSecretNotFoundError(uErr) {
+		rErr.SetCode(microserver.CodeResourceNotFound)
+		rErr.SetMessage("A credential with that path does not exist")
+		w.WriteHeader(http.StatusNotFound)
 	} else {
 		rErr.SetCode(microserver.CodeInternalError)
 		rErr.SetMessage(uErr.Error())

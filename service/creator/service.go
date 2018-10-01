@@ -1,3 +1,4 @@
+// Package creator offers a service to fetch a list of credentials.
 package creator
 
 import (
