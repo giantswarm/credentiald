@@ -25,6 +25,9 @@ const (
 	// We use these data keys to detect the provider from a secret.
 	providerAWSDetectionKey   = "aws.admin.arn"
 	providerAzureDetectionKey = "azure.azureoperator.subscriptionid"
+
+	// we name our default credential "credential-default". This is the second part of it.
+	defaultCredentialNameIDPart = "default"
 )
 
 // Config is the service configuration data structure.
@@ -62,7 +65,7 @@ func (c *Service) Search(request Request) (*Response, error) {
 	c.logger.Log("level", "debug", "message", fmt.Sprintf("searching secret for organization %s, ID %s", request.Organization, request.ID))
 
 	// We never expose the credential-default secret. From the outside, this does not exist.
-	if request.ID == "default" {
+	if request.ID == defaultCredentialNameIDPart {
 		c.logger.Log("level", "warn", "message", "attempt to get default credential. Denied.")
 		return nil, microerror.Mask(secretNotFoundError)
 	}
