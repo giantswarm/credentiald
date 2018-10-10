@@ -76,6 +76,11 @@ func (c *Service) List(request Request) ([]*Response, error) {
 	for _, credential := range credentialList.Items {
 		item := &Response{}
 
+		// We never expose the credential-default secret.
+		if credential.Name == "credential-default" {
+			continue
+		}
+
 		// get ID from name (ex: 'credential-15iv58')
 		{
 			parts := strings.Split(credential.Name, "-")
