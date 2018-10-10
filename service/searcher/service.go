@@ -61,6 +61,12 @@ func New(config Config) (*Service, error) {
 func (c *Service) Search(request Request) (*Response, error) {
 	c.logger.Log("level", "debug", "message", fmt.Sprintf("searching secret for organization %s, ID %s", request.Organization, request.ID))
 
+	// We never expose the credential-default secret. From the outside, this dos not exist.
+	if request.ID == "default" {
+		c.logger.Log("level", "warn", "message", "attempt to get default credential. Denied.")
+		return nil, microerror.Mask(secretNotFoundError)
+	}
+
 	name := "credential-" + request.ID
 	credential, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).Get(name, metav1.GetOptions{})
 	if err != nil {
