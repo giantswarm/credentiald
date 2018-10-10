@@ -26,6 +26,8 @@ const (
 	// We use these data keys to detect the provider from a secret.
 	providerAWSDetectionKey   = "aws.admin.arn"
 	providerAzureDetectionKey = "azure.azureoperator.subscriptionid"
+
+	defaultCredentialName = "credential-default"
 )
 
 // Config is the service configuration data structure.
@@ -77,7 +79,7 @@ func (c *Service) List(request Request) ([]*Response, error) {
 		item := &Response{}
 
 		// We never expose the credential-default secret.
-		if credential.Name == "credential-default" {
+		if credential.Name == defaultCredentialName {
 			continue
 		}
 
