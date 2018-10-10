@@ -66,7 +66,6 @@ func (c *Service) Search(request Request) (*Response, error) {
 
 	// We never expose the credential-default secret. From the outside, this does not exist.
 	if request.ID == defaultCredentialNameIDPart {
-		c.logger.Log("level", "warn", "message", "attempt to get default credential. Denied.")
 		return nil, microerror.Mask(secretNotFoundError)
 	}
 
