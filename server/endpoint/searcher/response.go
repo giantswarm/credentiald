@@ -21,6 +21,11 @@ type ResponseAWSRoles struct {
 
 // ResponseAzure is a type used by above Response struct.
 type ResponseAzure struct {
+	Credential *ResponseAzureCredential `json:"credential"`
+}
+
+// ResponseAzureCredential is a type used by above Response struct.
+type ResponseAzureCredential struct {
 	ClientID       string `json:"client_id"`
 	SubscriptionID string `json:"subscription_id"`
 	TenantID       string `json:"tenant_id"`

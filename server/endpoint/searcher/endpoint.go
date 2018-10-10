@@ -120,9 +120,11 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 			}
 		} else if searcherResponse.Provider == "azure" {
 			endpointResponse.Azure = &ResponseAzure{
-				SubscriptionID: searcherResponse.Azure.SubscriptionID,
-				TenantID:       searcherResponse.Azure.TenantID,
-				ClientID:       searcherResponse.Azure.ClientID,
+				Credential: &ResponseAzureCredential{
+					SubscriptionID: searcherResponse.Azure.Credential.SubscriptionID,
+					TenantID:       searcherResponse.Azure.Credential.TenantID,
+					ClientID:       searcherResponse.Azure.Credential.ClientID,
+				},
 			}
 		}
 

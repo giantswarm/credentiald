@@ -11,8 +11,10 @@ type Response struct {
 		}
 	}
 	Azure struct {
-		ClientID       string
-		SubscriptionID string
-		TenantID       string
+		Credential struct {
+			ClientID       string
+			SubscriptionID string
+			TenantID       string
+		}
 	}
 }
