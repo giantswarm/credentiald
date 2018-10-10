@@ -25,6 +25,9 @@ const (
 	// We use these data keys to detect the provider from a secret.
 	providerAWSDetectionKey   = "aws.admin.arn"
 	providerAzureDetectionKey = "azure.azureoperator.subscriptionid"
+
+	// we name our default credential "credential-default". This is the second part of it.
+	defaultCredentialNameIDPart = "default"
 )
 
 // Config is the service configuration data structure.
@@ -60,6 +63,11 @@ func New(config Config) (*Service, error) {
 // Search returns metadata about one credential.
 func (c *Service) Search(request Request) (*Response, error) {
 	c.logger.Log("level", "debug", "message", fmt.Sprintf("searching secret for organization %s, ID %s", request.Organization, request.ID))
+
+	// We never expose the credential-default secret. From the outside, this does not exist.
+	if request.ID == defaultCredentialNameIDPart {
+		return nil, microerror.Mask(secretNotFoundError)
+	}
 
 	name := "credential-" + request.ID
 	credential, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).Get(name, metav1.GetOptions{})
