@@ -105,9 +105,9 @@ func (c *Service) Search(request Request) (*Response, error) {
 		resp.AWS.Roles.Admin = string(credential.Data["aws.admin.arn"])
 		resp.AWS.Roles.AWSOperator = string(credential.Data["aws.awsoperator.arn"])
 	case providerAzure:
-		resp.Azure.SubscriptionID = string(credential.Data["azure.azureoperator.subscriptionid"])
-		resp.Azure.TenantID = string(credential.Data["azure.azureoperator.tenantid"])
-		resp.Azure.ClientID = string(credential.Data["azure.azureoperator.clientid"])
+		resp.Azure.Credential.SubscriptionID = string(credential.Data["azure.azureoperator.subscriptionid"])
+		resp.Azure.Credential.TenantID = string(credential.Data["azure.azureoperator.tenantid"])
+		resp.Azure.Credential.ClientID = string(credential.Data["azure.azureoperator.clientid"])
 	default:
 		return nil, microerror.Mask(secretInUnexpectedFormatError)
 	}
