@@ -78,7 +78,7 @@ func (c *Service) Search(request Request) (*Response, error) {
 	if err != nil {
 		kubernetesSearchErrorTotal.Inc()
 		c.logger.Log("level", "error", "message", "could not get secret", "stack", fmt.Sprintf("%#v", err))
-		return nil, microerror.Mask(secretNotFoundError)
+		return nil, microerror.Mask(err)
 	}
 
 	// make sure the found credential really belongs to the organization indicated
