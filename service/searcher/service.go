@@ -77,7 +77,6 @@ func (c *Service) Search(request Request) (*Response, error) {
 	credential, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).Get(name, metav1.GetOptions{})
 	if err != nil {
 		kubernetesSearchErrorTotal.Inc()
-		c.logger.Log("level", "error", "message", "could not get secret", "stack", fmt.Sprintf("%#v", err))
 		return nil, microerror.Mask(err)
 	}
 
