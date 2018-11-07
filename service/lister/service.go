@@ -7,6 +7,7 @@ import (
 
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
+	"github.com/prometheus/client_golang/prometheus"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
@@ -62,6 +63,9 @@ func New(config Config) (*Service, error) {
 
 // List returns metadata on all credentials found.
 func (c *Service) List(request Request) ([]*Response, error) {
+	timer := prometheus.NewTimer(listTime)
+	defer timer.ObserveDuration()
+
 	c.logger.Log("level", "debug", "message", fmt.Sprintf("listing secrets for organization %s", request.Organization))
 
 	selector := fmt.Sprintf(kubernetesLabelSelectorMask, request.Organization)
@@ -69,6 +73,7 @@ func (c *Service) List(request Request) ([]*Response, error) {
 		LabelSelector: selector,
 	})
 	if err != nil {
+		kubernetesListErrorTotal.Inc()
 		c.logger.Log("level", "error", "message", "could not list secrets", "stack", fmt.Sprintf("%#v", err))
 		return nil, microerror.Mask(err)
 	}
