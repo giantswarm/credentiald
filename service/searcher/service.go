@@ -73,7 +73,7 @@ func (c *Service) Search(request Request) (*Response, error) {
 	credential, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).Get(name, metav1.GetOptions{})
 	if err != nil {
 		c.logger.Log("level", "error", "message", "could not list secrets", "stack", fmt.Sprintf("%#v", err))
-		return nil, microerror.Mask(secretNotFoundError)
+		return nil, microerror.Mask(err)
 	}
 
 	// make sure the found credential really belongs to the organization indicated
