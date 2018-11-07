@@ -12,6 +12,7 @@ import (
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/microkit/server"
 	"github.com/giantswarm/micrologger"
+	"github.com/prometheus/client_golang/prometheus"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -85,6 +86,9 @@ func New(config Config) (*Service, error) {
 }
 
 func (s *Service) Create(ctx context.Context, request Request) (Response, error) {
+	timer := prometheus.NewTimer(createTime)
+	defer timer.ObserveDuration()
+
 	s.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("received service request: %#v", request))
 
 	// We allow only single credential secret per organization.
@@ -130,11 +134,12 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 
 	_, err = s.k8sClient.CoreV1().Secrets(secret.Namespace).Create(secret)
 	if err != nil {
+		kubernetesCreateErrorTotal.Inc()
 		return Response{}, microerror.Mask(err)
 	}
 
 	// Check if another secret wasn't created in the meantime. If so delete
-	// our. In worst case scenario there won't be any and the request will
+	// ours. In worst case scenario there won't be any and the request will
 	// have to be replayed.
 	existing, err = s.existing(request.Organization)
 	if err != nil {
@@ -143,6 +148,7 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 	if len(existing) > 1 {
 		err := s.k8sClient.CoreV1().Secrets(secret.Namespace).Delete(secret.Name, &metav1.DeleteOptions{})
 		if err != nil {
+			kubernetesCreateErrorTotal.Inc()
 			return Response{}, microerror.Mask(err)
 		}
 		return Response{}, microerror.Maskf(alreadyExistsError, "detected race when creating credential secret for organization %q", request.Organization)
@@ -168,8 +174,8 @@ func (s *Service) existing(organization string) ([]*corev1.Secret, error) {
 	resp, err := s.k8sClient.CoreV1().Secrets(s.secretsNamespace).List(metav1.ListOptions{
 		LabelSelector: strings.Join(selectors, ","),
 	})
-
 	if err != nil {
+		kubernetesCreateErrorTotal.Inc()
 		return nil, microerror.Mask(err)
 	}
 

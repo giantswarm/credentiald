@@ -6,6 +6,7 @@ import (
 
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
+	"github.com/prometheus/client_golang/prometheus"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
@@ -62,6 +63,9 @@ func New(config Config) (*Service, error) {
 
 // Search returns metadata about one credential.
 func (c *Service) Search(request Request) (*Response, error) {
+	timer := prometheus.NewTimer(searchTime)
+	defer timer.ObserveDuration()
+
 	c.logger.Log("level", "debug", "message", fmt.Sprintf("searching secret for organization %s, ID %s", request.Organization, request.ID))
 
 	// We never expose the credential-default secret. From the outside, this does not exist.
@@ -72,8 +76,9 @@ func (c *Service) Search(request Request) (*Response, error) {
 	name := "credential-" + request.ID
 	credential, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).Get(name, metav1.GetOptions{})
 	if err != nil {
-		c.logger.Log("level", "error", "message", "could not list secrets", "stack", fmt.Sprintf("%#v", err))
-		return nil, microerror.Mask(err)
+		kubernetesSearchErrorTotal.Inc()
+		c.logger.Log("level", "error", "message", "could not get secret", "stack", fmt.Sprintf("%#v", err))
+		return nil, microerror.Mask(secretNotFoundError)
 	}
 
 	// make sure the found credential really belongs to the organization indicated
@@ -112,7 +117,7 @@ func (c *Service) Search(request Request) (*Response, error) {
 		return nil, microerror.Mask(secretInUnexpectedFormatError)
 	}
 
-	c.logger.Log("level", "debug", "message", "finished listing secrets")
+	c.logger.Log("level", "debug", "message", "finished getting secret")
 
 	return resp, nil
 }
