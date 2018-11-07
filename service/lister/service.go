@@ -74,7 +74,6 @@ func (c *Service) List(request Request) ([]*Response, error) {
 	})
 	if err != nil {
 		kubernetesListErrorTotal.Inc()
-		c.logger.Log("level", "error", "message", "could not list secrets", "stack", fmt.Sprintf("%#v", err))
 		return nil, microerror.Mask(err)
 	}
 
