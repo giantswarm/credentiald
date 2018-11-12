@@ -116,7 +116,7 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 						SubscriptionID: credential.Azure.SubscriptionID,
 						TenantID:       credential.Azure.TenantID,
 						ClientID:       credential.Azure.ClientID,
-					}
+					},
 				}
 			}
 
