@@ -3,7 +3,6 @@ package client
 import (
 	"context"
 	"fmt"
-	"net/url"
 
 	"github.com/giantswarm/credentiald/service/creator"
 	"github.com/giantswarm/credentiald/service/lister"
@@ -30,11 +29,6 @@ func ExampleClient() Client {
 		logger, _ = micrologger.New(config)
 	}
 
-	var u *url.URL
-	{
-		u, _ = url.Parse(apiURL)
-	}
-
 	var restyClient *resty.Client
 	{
 		restyClient = resty.New()
@@ -42,9 +36,9 @@ func ExampleClient() Client {
 	}
 
 	var config = Config{
+		Address:    apiURL,
 		Logger:     logger,
 		RestClient: restyClient,
-		URL:        u,
 	}
 
 	var c *Client
