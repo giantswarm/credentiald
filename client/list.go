@@ -34,5 +34,6 @@ func (c Client) List(ctx context.Context, request lister.Request) ([]lister.Resp
 			return nil, microerror.Maskf(invalidResponseError, string(resp.Body()))
 		}
 	}
+
 	return response, nil
 }
