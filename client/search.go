@@ -34,5 +34,6 @@ func (c Client) Search(ctx context.Context, request searcher.Request) (*searcher
 			return nil, microerror.Maskf(invalidResponseError, string(resp.Body()))
 		}
 	}
+
 	return &response, nil
 }
