@@ -84,16 +84,16 @@ func (e *Endpoint) Encoder() kithttp.EncodeResponseFunc {
 // Endpoint is where requests are handled and responses are returned.
 func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		e.logger.Log("level", "debug", "message", fmt.Sprintf("received endpoint request: %#v", request))
+		e.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("received endpoint request: %#v", request))
 
 		endpointRequest := request.(Request)
 
 		serviceRequest := lister.Request{Organization: endpointRequest.Organization}
-		listerResponse, err := e.service.List(serviceRequest)
+		listerResponse, err := e.service.List(ctx, serviceRequest)
 		if err != nil {
 			return nil, microerror.Mask(err)
 		}
-		e.logger.Log("level", "debug", "message", fmt.Sprintf("received service response: %#v", listerResponse))
+		e.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("received service response: %#v", listerResponse))
 
 		endpointResponse := []*Response{}
 
