@@ -2,6 +2,7 @@
 package lister
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -62,11 +63,11 @@ func New(config Config) (*Service, error) {
 }
 
 // List returns metadata on all credentials found.
-func (c *Service) List(request Request) ([]*Response, error) {
+func (c *Service) List(ctx context.Context, request Request) ([]Response, error) {
 	timer := prometheus.NewTimer(listTime)
 	defer timer.ObserveDuration()
 
-	c.logger.Log("level", "debug", "message", fmt.Sprintf("listing secrets for organization %s", request.Organization))
+	c.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("listing secrets for organization %#q", request.Organization))
 
 	selector := fmt.Sprintf(kubernetesLabelSelectorMask, request.Organization)
 	credentialList, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).List(metav1.ListOptions{
@@ -77,10 +78,10 @@ func (c *Service) List(request Request) ([]*Response, error) {
 		return nil, microerror.Mask(err)
 	}
 
-	resp := []*Response{}
+	resp := []Response{}
 
 	for _, credential := range credentialList.Items {
-		item := &Response{}
+		item := Response{}
 
 		// We never expose the credential-default secret.
 		if credential.Name == defaultCredentialName {
@@ -93,7 +94,7 @@ func (c *Service) List(request Request) ([]*Response, error) {
 			if len(parts) == 2 {
 				item.ID = parts[1]
 			} else {
-				c.logger.Log("level", "error", "message", fmt.Sprintf("Invalid secret name found: %q", credential.Name))
+				c.logger.LogCtx(ctx, "level", "error", "message", fmt.Sprintf("ignoring listed secret with invalid name %#q", credential.Name))
 			}
 		}
 
@@ -116,7 +117,7 @@ func (c *Service) List(request Request) ([]*Response, error) {
 		resp = append(resp, item)
 	}
 
-	c.logger.Log("level", "debug", "message", "finished listing secrets")
+	c.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("listed secrets for organization %#q", request.Organization))
 
 	return resp, nil
 }
