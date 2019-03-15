@@ -1,7 +1,8 @@
 package service
 
 import (
-	"github.com/giantswarm/credentiald/flag/service/kubernetes"
+	"github.com/giantswarm/operatorkit/flag/service/kubernetes"
+
 	"github.com/giantswarm/credentiald/flag/service/secrets"
 )
 
