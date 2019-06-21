@@ -46,6 +46,9 @@ spec:
                     - credentiald
               topologyKey: kubernetes.io/hostname
       serviceAccountName: credentiald
+      securityContext:
+        runAsUser: {{ .Values.userID }}
+        runAsGroup: {{ .Values.groupID }}
       containers:
       - name: credentiald
         image: quay.io/giantswarm/credentiald:[[ .SHA ]]
