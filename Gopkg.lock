@@ -101,11 +101,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:5a0d05db0c0ccbaaf9ff7493b44196139f9f5fcff65113fcc463480bab4c3fc9"
+  digest = "1:c4b6fa60c419ae7d310e04ed2e37f38e685847416e193a5f5ce97ff81fe00443"
   name = "github.com/giantswarm/versionbundle"
   packages = ["."]
   pruneopts = "UT"
-  revision = "bb309403328a6b8ee85d88e2774a5cc902a4f36c"
+  revision = "c91a5899eae8867e7966df734f4cccbba450c841"
 
 [[projects]]
   digest = "1:83a37f3bd4ccd13469775ef771e943e6c7cfaba6926decff6c83135e56512f08"
@@ -126,6 +126,14 @@
   pruneopts = "UT"
   revision = "07c9b44f60d7ffdfb7d8efe1ad539965737836dc"
   version = "v0.4.0"
+
+[[projects]]
+  digest = "1:41206f4d0410803e64cfb203f665330c3183988408cb532b56305a816a87bd99"
+  name = "github.com/go-resty/resty"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "fa5875c0caa5c260ab78acec5a244215a730247f"
+  version = "v1.12.0"
 
 [[projects]]
   digest = "1:586ea76dbd0374d6fb649a91d70d652b7fe0ccffb8910a77468e7702e7901f3d"
