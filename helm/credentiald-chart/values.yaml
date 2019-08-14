@@ -1,2 +1,8 @@
-userID: 1000
-groupID: 1000
+deployment:
+  replicas: 2
+
+pod:
+  user:
+    id: 1000
+  group:
+    id: 1000
