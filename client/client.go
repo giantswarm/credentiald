@@ -3,12 +3,13 @@ package client
 import (
 	"context"
 	"fmt"
+	"gopkg.in/resty.v1"
 	"net/url"
 
 	"github.com/giantswarm/microclient"
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
-	"github.com/go-resty/resty"
+	"gopkg.in/resty.v1"
 )
 
 const (

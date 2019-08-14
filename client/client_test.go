@@ -8,7 +8,7 @@ import (
 	"github.com/giantswarm/credentiald/service/lister"
 	"github.com/giantswarm/credentiald/service/searcher"
 	"github.com/giantswarm/micrologger"
-	"github.com/go-resty/resty"
+	"gopkg.in/resty.v1"
 )
 
 // ExampleClient shows how to create a Client.
