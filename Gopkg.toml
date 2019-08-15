@@ -12,6 +12,10 @@
 
 [[constraint]]
   branch = "master"
+  name = "github.com/giantswarm/microclient"
+
+[[constraint]]
+  branch = "master"
   name = "github.com/giantswarm/micrologger"
 
 [[constraint]]

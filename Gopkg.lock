@@ -27,11 +27,11 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:f7f3cf9e12cfa0240a0d6dd3ce38d9a04246fc49307bfda2ae88be51ebd7dca6"
+  digest = "1:d36b8416dae93d8bd866dd958954b86cf28f5d62b2be18ac59fb5a0721b776ea"
   name = "github.com/giantswarm/microclient"
   packages = ["."]
   pruneopts = "UT"
-  revision = "134ab85d089df43c8b4a397fb81b76f7f3a6f44d"
+  revision = "459b479d046f262eadb1549a4789d04097bd8b23"
 
 [[projects]]
   branch = "master"
@@ -54,7 +54,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:e84b052d9547d99b68c1e7555404f9c1934cce841011dc5c72504b4bc9566097"
+  digest = "1:5a83c09d3255d3a9311f988a46068e99f537de547899fa3956ec4c51b439d0b2"
   name = "github.com/giantswarm/microkit"
   packages = [
     "command",
@@ -73,7 +73,7 @@
     "tls",
   ]
   pruneopts = "UT"
-  revision = "aaff79223ca0620a1b6506f0b598da59557659e6"
+  revision = "4eef9bd9640621debcdfa90dee993cb6898d18cf"
 
 [[projects]]
   branch = "master"
@@ -126,14 +126,6 @@
   pruneopts = "UT"
   revision = "07c9b44f60d7ffdfb7d8efe1ad539965737836dc"
   version = "v0.4.0"
-
-[[projects]]
-  digest = "1:41206f4d0410803e64cfb203f665330c3183988408cb532b56305a816a87bd99"
-  name = "github.com/go-resty/resty"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "fa5875c0caa5c260ab78acec5a244215a730247f"
-  version = "v1.12.0"
 
 [[projects]]
   digest = "1:586ea76dbd0374d6fb649a91d70d652b7fe0ccffb8910a77468e7702e7901f3d"
@@ -347,8 +339,7 @@
   version = "v2.0.1"
 
 [[projects]]
-  branch = "master"
-  digest = "1:2cd09e6a31595e87e9fab1848e58202b161c595d6fdb1c4ed760f58f08f4bd86"
+  digest = "1:e89f2cdede55684adbe44b5566f55838ad2aee1dff348d14b73ccf733607b671"
   name = "github.com/prometheus/client_golang"
   packages = [
     "prometheus",
@@ -356,7 +347,8 @@
     "prometheus/promhttp",
   ]
   pruneopts = "UT"
-  revision = "26e258bb9c9a94c26d4a46ff302ec7e855b82e10"
+  revision = "2641b987480bca71fb39738eb8c8b0d577cb1d76"
+  version = "v0.9.4"
 
 [[projects]]
   branch = "master"
@@ -560,12 +552,12 @@
   version = "v1.12.0"
 
 [[projects]]
-  branch = "v2"
   digest = "1:4d2e5a73dc1500038e504a8d78b986630e3626dc027bc030ba5c75da257cdb96"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
   pruneopts = "UT"
   revision = "51d6538a90f86fe93ac480b35f37b2be17fef232"
+  version = "v2.2.2"
 
 [[projects]]
   branch = "master"
