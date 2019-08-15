@@ -6,7 +6,7 @@ metadata:
   labels:
     app: credentiald
 spec:
-  replicas: 2
+  replicas: {{ .Values.deployment.replicas }}
   template:
     metadata:
       labels:
@@ -47,8 +47,8 @@ spec:
               topologyKey: kubernetes.io/hostname
       serviceAccountName: credentiald
       securityContext:
-        runAsUser: {{ .Values.userID }}
-        runAsGroup: {{ .Values.groupID }}
+        runAsUser: {{ .Values.pod.user.id }}
+        runAsGroup: {{ .Values.pod.group.id }}
       containers:
       - name: credentiald
         image: quay.io/giantswarm/credentiald:[[ .SHA ]]
