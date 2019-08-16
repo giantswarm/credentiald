@@ -13,16 +13,13 @@ import (
 	"github.com/giantswarm/micrologger"
 
 	"github.com/giantswarm/credentiald/flag"
+	"github.com/giantswarm/credentiald/pkg/project"
 	"github.com/giantswarm/credentiald/server"
 	"github.com/giantswarm/credentiald/service"
 )
 
 var (
-	description = "credentiald manages credentials for cloud environments."
-	f           = flag.New()
-	gitCommit   = "n/a"
-	name        = "credentiald"
-	source      = "https://github.com/giantswarm/credentiald"
+	f *flag.Flag = flag.New()
 )
 
 func init() {
@@ -53,10 +50,11 @@ func mainWithError() (err error) {
 				Logger: newLogger,
 				Viper:  v,
 
-				Description: description,
-				GitCommit:   gitCommit,
-				ProjectName: name,
-				Source:      source,
+				Description: project.Description(),
+				GitCommit:   project.GitSHA(),
+				ProjectName: project.Name(),
+				Source:      project.Source(),
+				Version:     project.Version(),
 			}
 
 			newService, err = service.New(c)
@@ -74,7 +72,7 @@ func mainWithError() (err error) {
 				Service: newService,
 				Viper:   v,
 
-				ProjectName: name,
+				ProjectName: project.Name(),
 			}
 
 			newServer, err = server.New(c)
@@ -92,10 +90,11 @@ func mainWithError() (err error) {
 			Logger:        newLogger,
 			ServerFactory: newServerFactory,
 
-			Description: description,
-			GitCommit:   gitCommit,
-			Name:        name,
-			Source:      source,
+			Description: project.Description(),
+			GitCommit:   project.GitSHA(),
+			Name:        project.Name(),
+			Source:      project.Source(),
+			Version:     project.Version(),
 		}
 
 		newCommand, err = command.New(c)

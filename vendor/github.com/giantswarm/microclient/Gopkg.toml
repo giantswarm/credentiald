@@ -25,9 +25,13 @@
   name = "github.com/giantswarm/microerror"
 
 [[constraint]]
-  name = "github.com/go-resty/resty"
+  name = "gopkg.in/resty.v1"
   version = "1.0.0"
 
 [[constraint]]
-  branch = "master"
   name = "github.com/prometheus/client_golang"
+  version = "0.9.3"
+
+[prune]
+  go-tests = true
+  unused-packages = true
