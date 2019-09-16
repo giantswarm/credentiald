@@ -1,0 +1,43 @@
+
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: credentiald-network-policy
+  namespace: giantswarm
+spec:
+  podSelector:
+    matchLabels:
+      app: credentiald
+  ingress:
+  - ports:
+    - port: 8000
+      protocol: TCP
+  egress:
+  # DNS lookups
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          name: kube-system
+  # API access
+  - ports:
+    - port: 443
+      protocol: TCP
+    to:
+    - ipBlock:
+        cidr: 10.0.0.0/8
+  # various operators but only in the same namespace
+  - ports:
+    - port: 8000
+      protocol: TCP
+    to:
+    - namespaceSelector:
+        matchLabels:
+          name: giantswarm
+  policyTypes:
+  - Egress
+  - Ingress
