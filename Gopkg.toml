@@ -34,9 +34,7 @@
   name = "gopkg.in/resty.v1"
   version = "=v1.12.0"
 
-[[constraint]]
-  branch = "master"
-  name = "github.com/giantswarm/versionbundle"
+
 
 [[override]]
   name = "k8s.io/apimachinery"
