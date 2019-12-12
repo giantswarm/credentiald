@@ -54,7 +54,7 @@ spec:
         runAsGroup: {{ .Values.pod.group.id }}
       containers:
       - name: credentiald
-        image: quay.io/giantswarm/credentiald:[[ .SHA ]]
+        image: {{ .Values.Installation.V1.Registry.Domain }}/giantswarm/credentiald:[[ .SHA ]]
         args:
         - daemon
         - --config.dirs=/var/run/credentiald/configmap/
