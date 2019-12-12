@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: credentiald
@@ -7,6 +7,9 @@ metadata:
     app: credentiald
 spec:
   replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: credentiald
   template:
     metadata:
       labels:
