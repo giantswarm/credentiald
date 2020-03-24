@@ -81,5 +81,3 @@ spec:
           limits:
             cpu: 50m
             memory: 50Mi
-      imagePullSecrets:
-      - name: credentiald-pull-secret
