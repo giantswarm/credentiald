@@ -36,18 +36,6 @@ spec:
           items:
           - key: config.yml
             path: config.yml
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                  - key: k8s-app
-                    operator: In
-                    values:
-                    - credentiald
-              topologyKey: kubernetes.io/hostname
       serviceAccountName: credentiald
       securityContext:
         runAsUser: {{ .Values.pod.user.id }}
