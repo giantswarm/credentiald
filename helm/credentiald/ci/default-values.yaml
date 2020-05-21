@@ -1,0 +1,16 @@
+Installation:
+  V1:
+    Registry:
+      Domain: ""
+    Secret:
+      Credentiald:
+        AWS:
+          CredentialDefault:
+            AdminARNL: ""
+            AWSOperatorARN: ""
+        Azure:
+          CredentialDefault:
+            ClientID: ""
+            ClientSecret: ""
+            SubscriptionID: ""
+            TenantID: ""
