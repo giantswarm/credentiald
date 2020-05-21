@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/giantswarm/credentiald/service/searcher"
 	"github.com/giantswarm/microerror"
+
+	"github.com/giantswarm/credentiald/service/searcher"
 )
 
 func (c Client) Search(ctx context.Context, request searcher.Request) (*searcher.Response, error) {
