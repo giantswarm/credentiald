@@ -6,7 +6,7 @@ Installation:
       Credentiald:
         AWS:
           CredentialDefault:
-            AdminARNL: ""
+            AdminARN: ""
             AWSOperatorARN: ""
         Azure:
           CredentialDefault:
