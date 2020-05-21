@@ -18,8 +18,6 @@ const (
 	// a label we expect to be set to the owner org
 	kubernetesOrganizationLabel = "giantswarm.io/organization"
 
-	gaugeValue = float64(1)
-
 	providerAWS   = "aws"
 	providerAzure = "azure"
 

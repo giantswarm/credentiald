@@ -26,13 +26,13 @@ const (
 
 type Config struct {
 	Logger     micrologger.Logger
-	Middleware *middleware.Middleware
+	Middleware *middleware.Middleware // nolint: structcheck, unused
 	Service    *creator.Service
 }
 
 type Endpoint struct {
 	logger     micrologger.Logger
-	middleware *middleware.Middleware
+	middleware *middleware.Middleware // nolint: structcheck, unused
 	service    *creator.Service
 }
 

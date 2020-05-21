@@ -1,2 +1,7 @@
-name: credentiald-chart
-version: 1.0.0-[[ .SHA ]]
+apiVersion: v1
+name: credentiald
+description: >-
+  credentiald manages credentials for cloud environments.
+home: https://github.com/giantswarm/credentiald
+version: [[ .Version ]]
+appVersion: [[ .AppVersion ]]

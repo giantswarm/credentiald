@@ -6,8 +6,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/giantswarm/credentiald/service/lister"
 	"github.com/giantswarm/microerror"
+
+	"github.com/giantswarm/credentiald/service/lister"
 )
 
 func (c Client) List(ctx context.Context, request lister.Request) ([]lister.Response, error) {

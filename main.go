@@ -116,7 +116,5 @@ func mainWithError() (err error) {
 	daemonCommand.PersistentFlags().String(f.Service.Secrets.NameFormat, "credential-%s", "Format to name secrets with.")
 	daemonCommand.PersistentFlags().Int(f.Service.Secrets.IDLength, 6, "Length of credential IDs.")
 
-	newCommand.CobraCommand().Execute()
-
-	return nil
+	return newCommand.CobraCommand().Execute()
 }

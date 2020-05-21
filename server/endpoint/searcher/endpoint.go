@@ -29,14 +29,14 @@ const (
 // Config defines which configuration our endpoint expects.
 type Config struct {
 	Logger     micrologger.Logger
-	Middleware *middleware.Middleware
+	Middleware *middleware.Middleware // nolint: structcheck, unused
 	Service    *searcher.Service
 }
 
 // Endpoint is the actual endpoint data structure.
 type Endpoint struct {
 	logger     micrologger.Logger
-	middleware *middleware.Middleware
+	middleware *middleware.Middleware // nolint: structcheck, unused
 	service    *searcher.Service
 }
 

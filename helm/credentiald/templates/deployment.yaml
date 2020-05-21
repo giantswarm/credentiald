@@ -15,6 +15,7 @@ spec:
       labels:
         app: credentiald
       annotations:
+        releaseRevision: {{ .Release.Revision | quote }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
     spec:
       affinity:
@@ -42,7 +43,7 @@ spec:
         runAsGroup: {{ .Values.pod.group.id }}
       containers:
       - name: credentiald
-        image: {{ .Values.Installation.V1.Registry.Domain }}/giantswarm/credentiald:[[ .SHA ]]
+        image: {{ .Values.Installation.V1.Registry.Domain }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
         args:
         - daemon
         - --config.dirs=/var/run/credentiald/configmap/

@@ -4,15 +4,17 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/giantswarm/micrologger"
+	"gopkg.in/resty.v1"
+
 	"github.com/giantswarm/credentiald/service/creator"
 	"github.com/giantswarm/credentiald/service/lister"
 	"github.com/giantswarm/credentiald/service/searcher"
-	"github.com/giantswarm/micrologger"
-	"gopkg.in/resty.v1"
 )
 
-// ExampleClient shows how to create a Client.
-func ExampleClient() Client {
+// ClientExample shows how to create a Client.
+// nolint: unused
+func ClientExample() Client {
 	var (
 		apiURL   = "http://api.g8s.example"
 		apiToken = "my-token"
@@ -49,8 +51,9 @@ func ExampleClient() Client {
 	return *c
 }
 
-// ExampleCreate shows how to create a set of credentials for an organization.
-func ExampleCreate() {
+// CreateExample shows how to create a set of credentials for an organization.
+// nolint: unused
+func CreateExample() {
 	var (
 		organizationID = "my-organization"
 		provider       = "azure"
@@ -58,7 +61,7 @@ func ExampleCreate() {
 
 	var c Client
 	{
-		c = ExampleClient()
+		c = ClientExample()
 	}
 
 	var ctx context.Context
@@ -79,15 +82,16 @@ func ExampleCreate() {
 	fmt.Printf("response: \n%#v\n", response)
 }
 
-// ExampleList shows how to list credentials which belong to an organization.
-func ExampleList() {
+// ListExample shows how to list credentials which belong to an organization.
+// nolint: unused
+func ListExample() {
 	var (
 		organizationID = "my-organization"
 	)
 
 	var c Client
 	{
-		c = ExampleClient()
+		c = ClientExample()
 	}
 
 	var ctx context.Context
@@ -108,8 +112,9 @@ func ExampleList() {
 
 }
 
-// ExampleSearch shows how to get a set of credentials which belong to an organzation.
-func ExampleSearch() {
+// SearchExample shows how to get a set of credentials which belong to an organzation.
+// nolint: unused
+func SearchExample() {
 	var (
 		organizationID = "my-organization"
 		credentialID   = "credential-a1b2c3"
@@ -117,7 +122,7 @@ func ExampleSearch() {
 
 	var c Client
 	{
-		c = ExampleClient()
+		c = ClientExample()
 	}
 
 	var ctx context.Context

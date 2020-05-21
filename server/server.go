@@ -131,8 +131,11 @@ func errorEncoder(ctx context.Context, err error, w http.ResponseWriter) {
 	}
 
 	// This writes the error response body to the stream.
-	json.NewEncoder(w).Encode(map[string]interface{}{
+	encodingError := json.NewEncoder(w).Encode(map[string]interface{}{
 		"code":    rErr.Code(),
 		"message": rErr.Message(),
 	})
+	if err != nil {
+		panic(encodingError)
+	}
 }

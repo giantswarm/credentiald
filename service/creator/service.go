@@ -190,6 +190,7 @@ func (s *Service) existing(organization string) ([]*corev1.Secret, error) {
 
 // generateCredentialID provides an ID suitable for credentials.
 func (s *Service) generateCredentialID() string {
+	pattern := regexp.MustCompile("^[a-z]+$")
 	for {
 		b := make([]rune, s.idLength)
 
@@ -205,8 +206,7 @@ func (s *Service) generateCredentialID() string {
 		}
 
 		// Don't use an ID if its letters only.
-		matched, err := regexp.MatchString("^[a-z]+$", id)
-		if err == nil && matched == true {
+		if pattern.MatchString(id) {
 			continue
 		}
 
