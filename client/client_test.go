@@ -12,8 +12,9 @@ import (
 	"github.com/giantswarm/credentiald/service/searcher"
 )
 
-// CLientExample shows how to create a Client.
-func CLientExample() Client {
+// ClientExample shows how to create a Client.
+// nolint: unused
+func ClientExample() Client {
 	var (
 		apiURL   = "http://api.g8s.example"
 		apiToken = "my-token"
@@ -51,6 +52,7 @@ func CLientExample() Client {
 }
 
 // CreateExample shows how to create a set of credentials for an organization.
+// nolint: unused
 func CreateExample() {
 	var (
 		organizationID = "my-organization"
@@ -59,7 +61,7 @@ func CreateExample() {
 
 	var c Client
 	{
-		c = CLientExample()
+		c = ClientExample()
 	}
 
 	var ctx context.Context
@@ -81,6 +83,7 @@ func CreateExample() {
 }
 
 // ListExample shows how to list credentials which belong to an organization.
+// nolint: unused
 func ListExample() {
 	var (
 		organizationID = "my-organization"
@@ -88,7 +91,7 @@ func ListExample() {
 
 	var c Client
 	{
-		c = CLientExample()
+		c = ClientExample()
 	}
 
 	var ctx context.Context
@@ -110,6 +113,7 @@ func ListExample() {
 }
 
 // SearchExample shows how to get a set of credentials which belong to an organzation.
+// nolint: unused
 func SearchExample() {
 	var (
 		organizationID = "my-organization"
@@ -118,7 +122,7 @@ func SearchExample() {
 
 	var c Client
 	{
-		c = CLientExample()
+		c = ClientExample()
 	}
 
 	var ctx context.Context

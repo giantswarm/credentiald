@@ -14,7 +14,7 @@ import (
 
 type Config struct {
 	Logger     micrologger.Logger
-	Middleware *middleware.Middleware
+	Middleware *middleware.Middleware // nolint: structcheck, unused
 	Service    *service.Service
 }
 

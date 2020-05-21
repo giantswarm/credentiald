@@ -20,8 +20,6 @@ const (
 	// the selector we use to retrieve credentials
 	kubernetesLabelSelectorMask = "app=credentiald,giantswarm.io/organization=%s"
 
-	gaugeValue = float64(1)
-
 	providerAWS   = "aws"
 	providerAzure = "azure"
 
