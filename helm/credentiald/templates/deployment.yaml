@@ -17,7 +17,6 @@ spec:
       annotations:
         releaseRevision: {{ .Release.Revision | quote }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-
     spec:
       affinity:
         podAntiAffinity:
