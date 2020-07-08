@@ -3,7 +3,6 @@ module github.com/giantswarm/credentiald
 go 1.14
 
 require (
-	github.com/giantswarm/k8sclient v0.2.0 // indirect
 	github.com/giantswarm/k8sclient/v3 v3.1.0
 	github.com/giantswarm/microclient v0.2.0
 	github.com/giantswarm/microendpoint v0.2.0
@@ -16,7 +15,7 @@ require (
 	github.com/prometheus/client_golang v1.7.1
 	github.com/spf13/viper v1.7.0
 	gopkg.in/resty.v1 v1.12.0
-	k8s.io/api v0.16.6
-	k8s.io/apimachinery v0.16.6
-	k8s.io/client-go v0.16.6
+	k8s.io/api v0.17.2
+	k8s.io/apimachinery v0.17.2
+	k8s.io/client-go v0.17.2
 )
