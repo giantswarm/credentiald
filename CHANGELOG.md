@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Quotation around secret values.
+
 ## [0.3.1] 2020-06-19
 
 ### Changed
