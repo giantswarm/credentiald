@@ -3,5 +3,5 @@ name: credentiald
 description: >-
   credentiald manages credentials for cloud environments.
 home: https://github.com/giantswarm/credentiald
-version: 100.0.0
-appVersion: 100.0.0
+version: [[ .Version ]]
+appVersion: [[ .AppVersion ]]
