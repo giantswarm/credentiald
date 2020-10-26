@@ -92,7 +92,7 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 	s.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("received service request: %#v", request))
 
 	// We allow only single credential secret per organization.
-	existing, err := s.existing(request.Organization)
+	existing, err := s.existing(ctx, request.Organization)
 	if err != nil {
 		return Response{}, microerror.Mask(err)
 	}
@@ -132,7 +132,7 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 		return Response{}, microerror.Maskf(invalidProviderError, "%q provider is not supported", request.Provider)
 	}
 
-	_, err = s.k8sClient.CoreV1().Secrets(secret.Namespace).Create(secret)
+	_, err = s.k8sClient.CoreV1().Secrets(secret.Namespace).Create(ctx, secret, metav1.CreateOptions{})
 	if err != nil {
 		kubernetesCreateErrorTotal.Inc()
 		return Response{}, microerror.Mask(err)
@@ -141,12 +141,12 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 	// Check if another secret wasn't created in the meantime. If so delete
 	// ours. In worst case scenario there won't be any and the request will
 	// have to be replayed.
-	existing, err = s.existing(request.Organization)
+	existing, err = s.existing(ctx, request.Organization)
 	if err != nil {
 		return Response{}, microerror.Mask(err)
 	}
 	if len(existing) > 1 {
-		err := s.k8sClient.CoreV1().Secrets(secret.Namespace).Delete(secret.Name, &metav1.DeleteOptions{})
+		err := s.k8sClient.CoreV1().Secrets(secret.Namespace).Delete(ctx, secret.Name, metav1.DeleteOptions{})
 		if err != nil {
 			kubernetesCreateErrorTotal.Inc()
 			return Response{}, microerror.Mask(err)
@@ -165,13 +165,13 @@ func (s *Service) Create(ctx context.Context, request Request) (Response, error)
 	return response, nil
 }
 
-func (s *Service) existing(organization string) ([]*corev1.Secret, error) {
+func (s *Service) existing(ctx context.Context, organization string) ([]*corev1.Secret, error) {
 	selectors := []string{
 		ManagedByLabel + "=" + ManagedByValue,
 		OrganizationLabel + "=" + organization,
 	}
 
-	resp, err := s.k8sClient.CoreV1().Secrets(s.secretsNamespace).List(metav1.ListOptions{
+	resp, err := s.k8sClient.CoreV1().Secrets(s.secretsNamespace).List(ctx, metav1.ListOptions{
 		LabelSelector: strings.Join(selectors, ","),
 	})
 	if err != nil {

@@ -2,6 +2,7 @@
 package searcher
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/giantswarm/microerror"
@@ -61,6 +62,7 @@ func New(config Config) (*Service, error) {
 
 // Search returns metadata about one credential.
 func (c *Service) Search(request Request) (*Response, error) {
+	ctx := context.Background()
 	timer := prometheus.NewTimer(searchTime)
 	defer timer.ObserveDuration()
 
@@ -72,7 +74,7 @@ func (c *Service) Search(request Request) (*Response, error) {
 	}
 
 	name := "credential-" + request.ID
-	credential, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).Get(name, metav1.GetOptions{})
+	credential, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).Get(ctx, name, metav1.GetOptions{})
 	if err != nil {
 		kubernetesSearchErrorTotal.Inc()
 		return nil, microerror.Mask(err)

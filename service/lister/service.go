@@ -68,7 +68,7 @@ func (c *Service) List(ctx context.Context, request Request) ([]Response, error)
 	c.logger.LogCtx(ctx, "level", "debug", "message", fmt.Sprintf("listing secrets for organization %#q", request.Organization))
 
 	selector := fmt.Sprintf(kubernetesLabelSelectorMask, request.Organization)
-	credentialList, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).List(metav1.ListOptions{
+	credentialList, err := c.k8sClient.CoreV1().Secrets(kubernetesCredentialNamespace).List(ctx, metav1.ListOptions{
 		LabelSelector: selector,
 	})
 	if err != nil {
