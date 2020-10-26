@@ -2,6 +2,7 @@
 package collector
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/giantswarm/microerror"
@@ -72,9 +73,10 @@ func (c *Collector) Describe(ch chan<- *prometheus.Desc) {
 
 // Collect collects metrics for prometheus
 func (c *Collector) Collect(ch chan<- prometheus.Metric) {
+	ctx := context.Background()
 	c.logger.Log("level", "debug", "message", "collecting metrics")
 
-	credentialList, err := c.k8sClient.CoreV1().Secrets(KubernetesCredentialNamespace).List(metav1.ListOptions{
+	credentialList, err := c.k8sClient.CoreV1().Secrets(KubernetesCredentialNamespace).List(ctx, metav1.ListOptions{
 		LabelSelector: KubernetesLabelSelector,
 	})
 	if err != nil {
