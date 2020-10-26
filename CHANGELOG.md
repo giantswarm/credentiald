@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update k8s dependencies to 1.18.9.
+
 ## [0.3.2] - 2020-07-13
 
 ### Changed
