@@ -1,4 +1,4 @@
-module github.com/giantswarm/credentiald
+module github.com/giantswarm/credentiald/v2
 
 go 1.14
 

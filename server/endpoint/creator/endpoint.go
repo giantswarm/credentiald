@@ -12,10 +12,10 @@ import (
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 
-	"github.com/giantswarm/credentiald/server/middleware"
-	"github.com/giantswarm/credentiald/service/creator"
-	"github.com/giantswarm/credentiald/service/creator/aws"
-	"github.com/giantswarm/credentiald/service/creator/azure"
+	"github.com/giantswarm/credentiald/v2/server/middleware"
+	"github.com/giantswarm/credentiald/v2/service/creator"
+	"github.com/giantswarm/credentiald/v2/service/creator/aws"
+	"github.com/giantswarm/credentiald/v2/service/creator/azure"
 )
 
 const (

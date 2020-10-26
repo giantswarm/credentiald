@@ -13,8 +13,8 @@ import (
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 
-	"github.com/giantswarm/credentiald/server/middleware"
-	"github.com/giantswarm/credentiald/service/lister"
+	"github.com/giantswarm/credentiald/v2/server/middleware"
+	"github.com/giantswarm/credentiald/v2/service/lister"
 )
 
 const (

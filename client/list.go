@@ -8,7 +8,7 @@ import (
 
 	"github.com/giantswarm/microerror"
 
-	"github.com/giantswarm/credentiald/service/lister"
+	"github.com/giantswarm/credentiald/v2/service/lister"
 )
 
 func (c Client) List(ctx context.Context, request lister.Request) ([]lister.Response, error) {
