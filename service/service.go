@@ -12,11 +12,11 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 
-	"github.com/giantswarm/credentiald/flag"
-	"github.com/giantswarm/credentiald/service/collector"
-	"github.com/giantswarm/credentiald/service/creator"
-	"github.com/giantswarm/credentiald/service/lister"
-	"github.com/giantswarm/credentiald/service/searcher"
+	"github.com/giantswarm/credentiald/v2/flag"
+	"github.com/giantswarm/credentiald/v2/service/collector"
+	"github.com/giantswarm/credentiald/v2/service/creator"
+	"github.com/giantswarm/credentiald/v2/service/lister"
+	"github.com/giantswarm/credentiald/v2/service/searcher"
 )
 
 type Config struct {

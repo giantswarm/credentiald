@@ -9,7 +9,7 @@ import (
 
 	"github.com/giantswarm/microerror"
 
-	"github.com/giantswarm/credentiald/service/creator"
+	"github.com/giantswarm/credentiald/v2/service/creator"
 )
 
 func (c Client) Create(ctx context.Context, request creator.Request) (*creator.Response, error) {

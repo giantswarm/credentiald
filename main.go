@@ -12,10 +12,10 @@ import (
 	microserver "github.com/giantswarm/microkit/server"
 	"github.com/giantswarm/micrologger"
 
-	"github.com/giantswarm/credentiald/flag"
-	"github.com/giantswarm/credentiald/pkg/project"
-	"github.com/giantswarm/credentiald/server"
-	"github.com/giantswarm/credentiald/service"
+	"github.com/giantswarm/credentiald/v2/flag"
+	"github.com/giantswarm/credentiald/v2/pkg/project"
+	"github.com/giantswarm/credentiald/v2/server"
+	"github.com/giantswarm/credentiald/v2/service"
 )
 
 var (

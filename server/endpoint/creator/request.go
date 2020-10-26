@@ -1,8 +1,8 @@
 package creator
 
 import (
-	"github.com/giantswarm/credentiald/server/endpoint/creator/aws"
-	"github.com/giantswarm/credentiald/server/endpoint/creator/azure"
+	"github.com/giantswarm/credentiald/v2/server/endpoint/creator/aws"
+	"github.com/giantswarm/credentiald/v2/server/endpoint/creator/azure"
 )
 
 type Request struct {

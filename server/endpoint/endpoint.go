@@ -5,11 +5,11 @@ import (
 	"github.com/giantswarm/microerror"
 	"github.com/giantswarm/micrologger"
 
-	"github.com/giantswarm/credentiald/server/endpoint/creator"
-	"github.com/giantswarm/credentiald/server/endpoint/lister"
-	"github.com/giantswarm/credentiald/server/endpoint/searcher"
-	"github.com/giantswarm/credentiald/server/middleware"
-	"github.com/giantswarm/credentiald/service"
+	"github.com/giantswarm/credentiald/v2/server/endpoint/creator"
+	"github.com/giantswarm/credentiald/v2/server/endpoint/lister"
+	"github.com/giantswarm/credentiald/v2/server/endpoint/searcher"
+	"github.com/giantswarm/credentiald/v2/server/middleware"
+	"github.com/giantswarm/credentiald/v2/service"
 )
 
 type Config struct {

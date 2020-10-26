@@ -7,9 +7,9 @@ import (
 	"github.com/giantswarm/micrologger"
 	"gopkg.in/resty.v1"
 
-	"github.com/giantswarm/credentiald/service/creator"
-	"github.com/giantswarm/credentiald/service/lister"
-	"github.com/giantswarm/credentiald/service/searcher"
+	"github.com/giantswarm/credentiald/v2/service/creator"
+	"github.com/giantswarm/credentiald/v2/service/lister"
+	"github.com/giantswarm/credentiald/v2/service/searcher"
 )
 
 // ClientExample shows how to create a Client.
