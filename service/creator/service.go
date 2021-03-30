@@ -182,7 +182,7 @@ func (s *Service) existing(ctx context.Context, organization string) ([]*corev1.
 	// Convert to pointers avoid future type confustions.
 	secrets := make([]*corev1.Secret, len(resp.Items))
 	for i, s := range resp.Items {
-		secrets[i] = &s
+		secrets[i] = &s // #nosec
 	}
 
 	return secrets, nil
@@ -195,7 +195,7 @@ func (s *Service) generateCredentialID() string {
 		b := make([]rune, s.idLength)
 
 		for i := range b {
-			b[i] = randomIDPool[rand.Intn(len(randomIDPool))]
+			b[i] = randomIDPool[rand.Intn(len(randomIDPool))] // #nosec
 		}
 
 		id := string(b)

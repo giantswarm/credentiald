@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@0.10.0
+  architect: giantswarm/architect@2.4.2
 
 workflows:
   build:
@@ -34,10 +34,8 @@ workflows:
           password_envar: "ALIYUN_PASSWORD"
           requires:
             - build-credentiald
-          # Needed to trigger job only on git tag.
+          # Needed to trigger job also on git tag.
           filters:
-            branches:
-              only: master
             tags:
               only: /^v.*/
 
@@ -54,49 +52,11 @@ workflows:
             tags:
               only: /^v.*/
 
-      - hold-push-credentiald-to-aliyun-pr:
-          type: approval
-          requires:
-            - build-credentiald
-          # Needed to prevent job from being triggered on master branch.
-          filters:
-            branches:
-              ignore: master
-
-      - architect/push-to-docker-legacy:
-          name: push-credentiald-to-aliyun-pr
-          context: architect
-          image: "registry-intl.cn-shanghai.aliyuncs.com/giantswarm/credentiald"
-          username_envar: "ALIYUN_USERNAME"
-          password_envar: "ALIYUN_PASSWORD"
-          # Push to Aliyun should execute for non-master branches only once manually approved.
-          requires:
-            - hold-push-credentiald-to-aliyun-pr
-          # Needed to prevent job being triggered for master branch.
-          filters:
-            branches:
-              ignore: master
-
-      # Push to Aliyun should execute without manual approval on master.
-      - architect/push-to-docker-legacy:
-          name: push-credentiald-to-aliyun-master
-          context: architect
-          image: "registry-intl.cn-shanghai.aliyuncs.com/giantswarm/credentiald"
-          username_envar: "ALIYUN_USERNAME"
-          password_envar: "ALIYUN_PASSWORD"
-          requires:
-            - build-credentiald
-          # Needed to trigger job only on merge to master.
-          filters:
-            branches:
-              only: master
-
       - architect/push-to-app-collection:
           name: push-credentiald-to-aws-app-collection
           context: architect
           app_name: "credentiald"
           app_collection_repo: "aws-app-collection"
-          unique: "true"
           requires:
             - push-credentiald-to-control-plane-app-catalog
           filters:
@@ -110,7 +70,6 @@ workflows:
           context: architect
           app_name: "credentiald"
           app_collection_repo: "azure-app-collection"
-          unique: "true"
           requires:
             - push-credentiald-to-control-plane-app-catalog
           filters:
@@ -124,7 +83,6 @@ workflows:
           context: architect
           app_name: "credentiald"
           app_collection_repo: "kvm-app-collection"
-          unique: "true"
           requires:
             - push-credentiald-to-control-plane-app-catalog
           filters:

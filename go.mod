@@ -19,3 +19,9 @@ require (
 	k8s.io/apimachinery v0.18.9
 	k8s.io/client-go v0.18.9
 )
+
+replace (
+	github.com/coreos/etcd => github.com/coreos/etcd v3.3.25+incompatible
+	github.com/gogo/protobuf v1.3.1 => github.com/gogo/protobuf v1.3.2
+	github.com/gorilla/websocket => github.com/gorilla/websocket v1.4.2
+)
