@@ -34,10 +34,8 @@ workflows:
           password_envar: "ALIYUN_PASSWORD"
           requires:
             - build-credentiald
-          # Needed to trigger job only on git tag.
+          # Needed to trigger job also on git tag.
           filters:
-            branches:
-              only: master
             tags:
               only: /^v.*/
 
