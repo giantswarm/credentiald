@@ -16,7 +16,7 @@ credentiald:
   aws:
     defaultCredentials:
       adminARN: ""
-      AWSOperatorARN: ""
+      awsOperatorARN: ""
   azure:
     defaultCredentials:
       clientID: ""
