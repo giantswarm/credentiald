@@ -12,7 +12,7 @@ pod:
 registry:
   domain: docker.io
 
-credentiald:
+provider:
   aws:
     defaultCredentials:
       adminARN: ""
