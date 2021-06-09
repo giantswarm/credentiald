@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2021-06-09
+
 ### Changed
 
 - Prepare helm values to configuration management.
@@ -62,7 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
-[Unreleased]: https://github.com/giantswarm/credentiald/compare/v2.17.0...HEAD
+[Unreleased]: https://github.com/giantswarm/credentiald/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/giantswarm/credentiald/compare/v2.17.0...v2.1.0
 [2.17.0]: https://github.com/giantswarm/credentiald/compare/v2.0.1...v2.17.0
 [2.0.1]: https://github.com/giantswarm/credentiald/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/giantswarm/credentiald/compare/v0.3.2...v2.0.0
