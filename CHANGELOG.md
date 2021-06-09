@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fix default credential secret templating.
+
 ## [2.1.1] - 2021-06-09
+
+### Fixed
+
+- Add configuration version.
 
 ## [2.1.0] - 2021-06-09
 
