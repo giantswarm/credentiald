@@ -5,7 +5,7 @@ var (
 	gitSHA      = "n/a"
 	name        = "credentiald"
 	source      = "https://github.com/giantswarm/credentiald"
-	version     = "2.17.0"
+	version     = "2.17.1-dev"
 )
 
 func Description() string {
