@@ -13,7 +13,7 @@ require (
 	github.com/go-kit/kit v0.10.0
 	github.com/gorilla/mux v1.8.0
 	github.com/prometheus/client_golang v1.7.1
-	github.com/spf13/viper v1.7.1
+	github.com/spf13/viper v1.9.0
 	gopkg.in/resty.v1 v1.12.0
 	k8s.io/api v0.18.9
 	k8s.io/apimachinery v0.18.9
