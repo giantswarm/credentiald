@@ -91,3 +91,17 @@ workflows:
             tags:
               only: /^v.*/
 
+
+      - architect/push-to-app-collection:
+          name: push-credentiald-to-openstack-app-collection
+          context: architect
+          app_name: "credentiald"
+          app_collection_repo: "openstack-app-collection"
+          requires:
+            - push-credentiald-to-control-plane-app-catalog
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+
