@@ -90,8 +90,7 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v.*/
-
-
+              
       - architect/push-to-app-collection:
           name: push-credentiald-to-openstack-app-collection
           context: architect
