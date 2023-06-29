@@ -5,8 +5,6 @@ metadata:
   namespace: giantswarm
   labels:
     app: credentiald
-  annotations:
-    prometheus.io/scrape: "true"
 spec:
   ports:
   - port: 8000
