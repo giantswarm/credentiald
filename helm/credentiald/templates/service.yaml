@@ -7,6 +7,9 @@ metadata:
     app: credentiald
 spec:
   ports:
-  - port: 8000
+  - name: http
+    port: 8000
+    protocol: TCP
+    targetPort: http
   selector:
     app: credentiald

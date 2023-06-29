@@ -6,11 +6,12 @@ metadata:
   namespace: giantswarm
   labels:
     app: credentiald
+    application.giantswarm.io/team: {{ index .Chart.Annotations "application.giantswarm.io/team" | quote }}
 spec:
   endpoints:
     - interval: {{ .Values.serviceMonitor.interval }}
       path: /metrics
-      port: 8000
+      port: http
       scrapeTimeout: {{ .Values.serviceMonitor.scrapeTimeout }}
   selector:
     matchLabels:

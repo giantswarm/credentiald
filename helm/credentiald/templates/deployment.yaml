@@ -48,6 +48,10 @@ spec:
         - daemon
         - --config.dirs=/var/run/credentiald/configmap/
         - --config.files=config
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
         volumeMounts:
         - name: credentiald-configmap
           mountPath: /var/run/credentiald/configmap/
