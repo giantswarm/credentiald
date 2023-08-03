@@ -1,6 +1,8 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/giantswarm/credentiald/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/giantswarm/credentiald/tree/master)
+
 # credentiald
 
-credentiald manages credentials for cloud environments.
+Manages credentials for cloud environments.
 
 ## Development
 
