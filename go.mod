@@ -3,7 +3,7 @@ module github.com/giantswarm/credentiald/v2
 go 1.14
 
 require (
-	github.com/giantswarm/k8sclient/v4 v4.0.0
+	github.com/giantswarm/k8sclient/v4 v4.1.0
 	github.com/giantswarm/microclient v0.2.0
 	github.com/giantswarm/microendpoint v0.2.0
 	github.com/giantswarm/microerror v0.2.1
