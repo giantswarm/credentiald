@@ -2,7 +2,7 @@
 
 # credentiald
 
-credentiald manages credentials for cloud environments.
+Manages credentials for cloud environments.
 
 ## Development
 
