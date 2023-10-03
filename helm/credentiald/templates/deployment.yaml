@@ -41,6 +41,13 @@ spec:
       securityContext:
         runAsUser: {{ .Values.pod.user.id }}
         runAsGroup: {{ .Values.pod.group.id }}
+        allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL
+        seccompProfile:
+          type: RuntimeDefault
       containers:
       - name: credentiald
         image: {{ .Values.registry.domain }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
