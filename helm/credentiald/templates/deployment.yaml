@@ -42,10 +42,10 @@ spec:
         runAsUser: {{ .Values.pod.user.id }}
         runAsGroup: {{ .Values.pod.group.id }}
         allowPrivilegeEscalation: false
-          runAsNonRoot: true
-          capabilities:
-            drop:
-              - ALL
+        runAsNonRoot: true
+        capabilities:
+          drop:
+            - ALL
         seccompProfile:
           type: RuntimeDefault
       containers:
