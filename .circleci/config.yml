@@ -53,23 +53,10 @@ workflows:
               only: /^v.*/
 
       - architect/push-to-app-collection:
-          name: push-credentiald-to-aws-app-collection
+          name: push-credentiald-to-rest-api-app-collection
           context: architect
           app_name: "credentiald"
-          app_collection_repo: "aws-app-collection"
-          requires:
-            - push-credentiald-to-control-plane-app-catalog
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
-
-      - architect/push-to-app-collection:
-          name: push-credentiald-to-azure-app-collection
-          context: architect
-          app_name: "credentiald"
-          app_collection_repo: "azure-app-collection"
+          app_collection_repo: "rest-api-app-collection"
           requires:
             - push-credentiald-to-control-plane-app-catalog
           filters:
