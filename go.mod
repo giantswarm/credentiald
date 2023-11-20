@@ -1,6 +1,6 @@
 module github.com/giantswarm/credentiald/v2
 
-go 1.16.2
+go 1.16
 
 require (
 	github.com/giantswarm/k8sclient/v4 v4.0.0
