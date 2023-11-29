@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@3.0.0
+  architect: giantswarm/architect@4.35.5
 
 workflows:
   build:
@@ -13,28 +13,11 @@ workflows:
             tags:
               only: /^v.*/
 
-      - architect/push-to-docker:
-          name: push-credentiald-to-quay
+      - architect/push-to-registries:
           context: architect
-          image: "quay.io/giantswarm/credentiald"
-          username_envar: "QUAY_USERNAME"
-          password_envar: "QUAY_PASSWORD"
+          name: push-to-registries
           requires:
             - build-credentiald
-          # Needed to trigger job also on git tag.
-          filters:
-            tags:
-              only: /^v.*/
-
-      - architect/push-to-docker:
-          name: push-credentiald-to-aliyun
-          context: architect
-          image: "giantswarm-registry.cn-shanghai.cr.aliyuncs.com/giantswarm/credentiald"
-          username_envar: "ALIYUN_USERNAME"
-          password_envar: "ALIYUN_PASSWORD"
-          requires:
-            - build-credentiald
-          # Needed to trigger job also on git tag.
           filters:
             tags:
               only: /^v.*/
@@ -46,8 +29,7 @@ workflows:
           app_catalog_test: "control-plane-test-catalog"
           chart: "credentiald"
           requires:
-            - push-credentiald-to-quay
-          # Needed to trigger job also on git tag.
+            - push-to-registries
           filters:
             tags:
               only: /^v.*/
