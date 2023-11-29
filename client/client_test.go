@@ -117,7 +117,7 @@ func ListExample() {
 func SearchExample() {
 	var (
 		organizationID = "my-organization"
-		credentialID   = "credential-a1b2c3"
+		credentialID   = "credential-a1b2c3" //nolint:gosec
 	)
 
 	var c Client
