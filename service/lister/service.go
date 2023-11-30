@@ -27,7 +27,7 @@ const (
 	providerAWSDetectionKey   = "aws.admin.arn"
 	providerAzureDetectionKey = "azure.azureoperator.subscriptionid"
 
-	defaultCredentialName = "credential-default"
+	defaultCredentialName = "credential-default" //nolint:gosec
 )
 
 // Config is the service configuration data structure.
