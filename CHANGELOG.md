@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Configure `gsoci.azurecr.io` as the default container image registry.
+
 ## [2.3.0] - 2023-10-03
 
 ### Changed
@@ -56,23 +60,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - No notable changes.
 
-
-
 ## [0.3.0] 2020-05-21
 
 ### Changed
 
 - Deploy as a unique app in app collection
 
-
-
 ## [0.2.0] 2020-04-10
 
 ### Changed
 
 - Migrate from dep to Go modules
-
-
 
 ## [0.1.0] 2020-04-10
 
