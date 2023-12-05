@@ -1,6 +1,6 @@
 image:
   repository: giantswarm/credentiald
-  tag: [[ .Version ]]
+  tag: [[.Version]]
 deployment:
   replicas: 2
 pod:
@@ -10,7 +10,7 @@ pod:
     id: 1000
 
 registry:
-  domain: docker.io
+  domain: gsoci.azurecr.io
 
 provider:
   aws:
