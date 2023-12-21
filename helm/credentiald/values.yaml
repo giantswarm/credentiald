@@ -34,3 +34,6 @@ serviceMonitor:
 global:
   podSecurityStandards:
     enforced: false
+
+kyvernoPolicyExceptions:
+  enabled: true
