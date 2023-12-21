@@ -22,7 +22,7 @@
                     }
                 }
             }
-        },        
+        },
         "image": {
             "type": "object",
             "properties": {
