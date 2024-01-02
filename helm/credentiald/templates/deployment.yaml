@@ -62,6 +62,16 @@ spec:
         volumeMounts:
         - name: credentiald-configmap
           mountPath: /var/run/credentiald/configmap/
+        securityContext:
+          runAsUser: {{ .Values.pod.user.id }}
+          runAsGroup: {{ .Values.pod.group.id }}
+          allowPrivilegeEscalation: false
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL
+          seccompProfile:
+            type: RuntimeDefault
         readinessProbe:
           httpGet:
             path: /
