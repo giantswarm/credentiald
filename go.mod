@@ -15,9 +15,9 @@ require (
 	github.com/prometheus/client_golang v1.17.0
 	github.com/spf13/viper v1.7.1
 	gopkg.in/resty.v1 v1.12.0
-	k8s.io/api v0.18.9
-	k8s.io/apimachinery v0.18.9
-	k8s.io/client-go v0.18.9
+	k8s.io/api v0.18.14
+	k8s.io/apimachinery v0.18.14
+	k8s.io/client-go v0.18.14
 )
 
 replace (
