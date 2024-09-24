@@ -124,7 +124,7 @@ jobs:
       - install_semver
     steps:
       - name: Download semver artifact to /opt/bin
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: semver
           path: /opt/bin
@@ -218,7 +218,7 @@ jobs:
     if: ${{ needs.gather_facts.outputs.version }}
     steps:
       - name: Download semver artifact to /opt/bin
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: semver
           path: /opt/bin
