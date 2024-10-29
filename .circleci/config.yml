@@ -5,57 +5,65 @@ orbs:
 workflows:
   build:
     jobs:
-      - architect/go-build:
-          name: build-credentiald
-          context: architect
-          binary: credentiald
-          filters:
-            tags:
-              only: /^v.*/
+    - architect/go-build:
+        name: build-credentiald
+        context: architect
+        binary: credentiald
+        filters:
+          tags:
+            only: /^v.*/
 
-      - architect/push-to-registries:
-          context: architect
-          name: push-to-registries
-          requires:
-            - build-credentiald
-          filters:
-            tags:
-              only: /^v.*/
+    - architect/push-to-registries:
+        context: architect
+        name: push-to-registries
+        requires:
+        - build-credentiald
+        filters:
+          tags:
+            only: /^v.*/
 
-      - architect/push-to-app-catalog:
-          name: push-credentiald-to-control-plane-app-catalog
-          context: architect
-          app_catalog: "control-plane-catalog"
-          app_catalog_test: "control-plane-test-catalog"
-          chart: "credentiald"
-          requires:
-            - push-to-registries
-          filters:
-            tags:
-              only: /^v.*/
+          branches:
+            ignore:
+            - main
+            - master
+    - architect/push-to-app-catalog:
+        name: push-credentiald-to-control-plane-app-catalog
+        context: architect
+        app_catalog: control-plane-catalog
+        app_catalog_test: control-plane-test-catalog
+        chart: credentiald
+        requires:
+        - push-to-registries
+        filters:
+          tags:
+            only: /^v.*/
 
-      - architect/push-to-app-collection:
-          name: push-credentiald-to-aws-app-collection
-          context: architect
-          app_name: "credentiald"
-          app_collection_repo: "aws-app-collection"
-          requires:
-            - push-credentiald-to-control-plane-app-catalog
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
+          branches:
+            ignore:
+            - main
+            - master
+    - architect/push-to-app-collection:
+        name: push-credentiald-to-aws-app-collection
+        context: architect
+        app_name: credentiald
+        app_collection_repo: aws-app-collection
+        requires:
+        - push-credentiald-to-control-plane-app-catalog
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /^v.*/
 
-      - architect/push-to-app-collection:
-          name: push-credentiald-to-azure-app-collection
-          context: architect
-          app_name: "credentiald"
-          app_collection_repo: "azure-app-collection"
-          requires:
-            - push-credentiald-to-control-plane-app-catalog
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v.*/
+    - architect/push-to-app-collection:
+        name: push-credentiald-to-azure-app-collection
+        context: architect
+        app_name: credentiald
+        app_collection_repo: azure-app-collection
+        requires:
+        - push-credentiald-to-control-plane-app-catalog
+        filters:
+          branches:
+            ignore: /.*/
+          tags:
+            only: /^v.*/
