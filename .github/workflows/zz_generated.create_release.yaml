@@ -93,7 +93,7 @@ jobs:
           echo "::set-output name=url::${URL}"
       - name: Cache
         id: cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4
         with:
           key: "${{ steps.key.outputs.cache_key }}"
           path: "${{ steps.key.outputs.cache_dir }}"
@@ -111,7 +111,7 @@ jobs:
         run: |
           ${{ steps.key.outputs.cache_dir }}/${{ steps.key.outputs.binary }} --version
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: "${{ steps.key.outputs.binary }}"
           path: "${{ steps.key.outputs.cache_dir }}/${{ steps.key.outputs.binary }}"
@@ -124,7 +124,7 @@ jobs:
       - install_semver
     steps:
       - name: Download semver artifact to /opt/bin
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: semver
           path: /opt/bin
@@ -218,7 +218,7 @@ jobs:
     if: ${{ needs.gather_facts.outputs.version }}
     steps:
       - name: Download semver artifact to /opt/bin
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: semver
           path: /opt/bin
