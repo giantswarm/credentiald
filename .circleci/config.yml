@@ -21,11 +21,11 @@ workflows:
         filters:
           tags:
             only: /^v.*/
-
           branches:
             ignore:
             - main
             - master
+
     - architect/push-to-app-catalog:
         name: push-credentiald-to-control-plane-app-catalog
         context: architect
@@ -37,11 +37,11 @@ workflows:
         filters:
           tags:
             only: /^v.*/
-
           branches:
             ignore:
             - main
             - master
+
     - architect/push-to-app-collection:
         name: push-credentiald-to-aws-app-collection
         context: architect
