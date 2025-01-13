@@ -50,7 +50,7 @@ spec:
           type: RuntimeDefault
       containers:
       - name: credentiald
-        image: {{ .Values.registry.domain }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        image: {{ .Values.registry.domain }}/{{ .Values.image.repository }}:{{ include "image.tag" . }}
         args:
         - daemon
         - --config.dirs=/var/run/credentiald/configmap/
