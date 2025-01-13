@@ -30,7 +30,13 @@
                     "type": "string"
                 },
                 "tag": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },

@@ -1,6 +1,6 @@
 image:
   repository: giantswarm/credentiald
-  tag: [[.Version]]
+  tag: ""
 deployment:
   replicas: 2
 pod:
