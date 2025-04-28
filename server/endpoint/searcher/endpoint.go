@@ -13,7 +13,6 @@ import (
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 
-	"github.com/giantswarm/credentiald/v2/server/middleware"
 	"github.com/giantswarm/credentiald/v2/service/searcher"
 )
 
@@ -28,16 +27,14 @@ const (
 
 // Config defines which configuration our endpoint expects.
 type Config struct {
-	Logger     micrologger.Logger
-	Middleware *middleware.Middleware // nolint: structcheck, unused
-	Service    *searcher.Service
+	Logger  micrologger.Logger
+	Service *searcher.Service
 }
 
 // Endpoint is the actual endpoint data structure.
 type Endpoint struct {
-	logger     micrologger.Logger
-	middleware *middleware.Middleware // nolint: structcheck, unused
-	service    *searcher.Service
+	logger  micrologger.Logger
+	service *searcher.Service
 }
 
 // New creates a new endpoint with configuration.
@@ -111,14 +108,15 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 			Provider: searcherResponse.Provider,
 		}
 
-		if searcherResponse.Provider == "aws" {
+		switch searcherResponse.Provider {
+		case "aws":
 			endpointResponse.AWS = &ResponseAWS{
 				&ResponseAWSRoles{
 					Admin:       searcherResponse.AWS.Roles.Admin,
 					AWSOperator: searcherResponse.AWS.Roles.AWSOperator,
 				},
 			}
-		} else if searcherResponse.Provider == "azure" {
+		case "azure":
 			endpointResponse.Azure = &ResponseAzure{
 				Credential: &ResponseAzureCredential{
 					SubscriptionID: searcherResponse.Azure.Credential.SubscriptionID,
