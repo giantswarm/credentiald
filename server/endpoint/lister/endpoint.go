@@ -13,6 +13,7 @@ import (
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 
+	"github.com/giantswarm/credentiald/v2/server/middleware"
 	"github.com/giantswarm/credentiald/v2/service/lister"
 )
 
@@ -27,14 +28,16 @@ const (
 
 // Config defines which configuration our endpoint expects.
 type Config struct {
-	Logger  micrologger.Logger
-	Service *lister.Service
+	Logger     micrologger.Logger
+	Middleware *middleware.Middleware // nolint: structcheck, unused
+	Service    *lister.Service
 }
 
 // Endpoint is the actual endpoint data structure.
 type Endpoint struct {
-	logger  micrologger.Logger
-	service *lister.Service
+	logger     micrologger.Logger
+	middleware *middleware.Middleware // nolint: structcheck, unused
+	service    *lister.Service
 }
 
 // New creates a new endpoint with configuration.
