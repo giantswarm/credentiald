@@ -111,14 +111,15 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 			Provider: searcherResponse.Provider,
 		}
 
-		if searcherResponse.Provider == "aws" {
+		switch searcherResponse.Provider {
+		case "aws":
 			endpointResponse.AWS = &ResponseAWS{
 				&ResponseAWSRoles{
 					Admin:       searcherResponse.AWS.Roles.Admin,
 					AWSOperator: searcherResponse.AWS.Roles.AWSOperator,
 				},
 			}
-		} else if searcherResponse.Provider == "azure" {
+		case "azure":
 			endpointResponse.Azure = &ResponseAzure{
 				Credential: &ResponseAzureCredential{
 					SubscriptionID: searcherResponse.Azure.Credential.SubscriptionID,

@@ -103,14 +103,15 @@ func (e *Endpoint) Endpoint() kitendpoint.Endpoint {
 				Provider: credential.Provider,
 			}
 
-			if credential.Provider == "aws" {
+			switch credential.Provider {
+			case "aws":
 				responseItem.AWS = &ResponseAWS{
 					&ResponseAWSRoles{
 						Admin:       credential.AWS.Roles.Admin,
 						AWSOperator: credential.AWS.Roles.AWSOperator,
 					},
 				}
-			} else if credential.Provider == "azure" {
+			case "azure":
 				responseItem.Azure = &ResponseAzure{
 					Credential: &ResponseAzureCredential{
 						SubscriptionID: credential.Azure.SubscriptionID,

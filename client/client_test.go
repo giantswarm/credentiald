@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/giantswarm/micrologger"
-	"gopkg.in/resty.v1"
+	resty "gopkg.in/resty.v1"
 
 	"github.com/giantswarm/credentiald/v2/service/creator"
 	"github.com/giantswarm/credentiald/v2/service/lister"
