@@ -1,3 +1,4 @@
+CVE-2024-45337 until=2025-05-28 # golang.org/x/crypto@v0.21.0
 CVE-2024-45338 until=2025-05-28 # golang.org/x/net@v0.18.0
 CVE-2025-22870 until=2025-05-28 # golang.org/x/net@v0.18.0
 CVE-2025-22872 until=2025-05-28 # golang.org/x/net@v0.18.0
